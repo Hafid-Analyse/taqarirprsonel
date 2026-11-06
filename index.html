@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1F2328">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>تقاريري</title>
+<style>
+/* ===== الخط (محلي، يعمل دون إنترنت) ===== */
+@font-face{font-family:Tajawal;font-weight:400;font-display:swap;src:url(fonts/tajawal-arabic-400-normal.woff2) format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FEFC}
+@font-face{font-family:Tajawal;font-weight:500;font-display:swap;src:url(fonts/tajawal-arabic-500-normal.woff2) format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FEFC}
+@font-face{font-family:Tajawal;font-weight:700;font-display:swap;src:url(fonts/tajawal-arabic-700-normal.woff2) format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FEFC}
+@font-face{font-family:Tajawal;font-weight:800;font-display:swap;src:url(fonts/tajawal-arabic-800-normal.woff2) format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FEFC}
+@font-face{font-family:Tajawal;font-weight:400;font-display:swap;src:url(fonts/tajawal-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212,U+FEFF}
+@font-face{font-family:Tajawal;font-weight:500;font-display:swap;src:url(fonts/tajawal-latin-500-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212,U+FEFF}
+@font-face{font-family:Tajawal;font-weight:700;font-display:swap;src:url(fonts/tajawal-latin-700-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212,U+FEFF}
+@font-face{font-family:Tajawal;font-weight:800;font-display:swap;src:url(fonts/tajawal-latin-800-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212,U+FEFF}
+
+:root{--bg:#F5F4F0;--card:#fff;--ink:#1F2328;--mut:#6B7280;--line:#E7E5E0;--soft:#EFEDE8;--acc:#1F2328;--red:#D93025;--amber:#E8A100;--green:#1E9E5A;--r:16px;--sh:0 1px 2px rgba(0,0,0,.04),0 4px 14px rgba(0,0,0,.05)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Tajawal,system-ui,sans-serif;font-size:16px}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+a{color:inherit;text-decoration:none}
+#app{max-width:1180px;margin:0 auto;min-height:100vh;padding-bottom:96px}
+.muted{color:var(--mut)}.sm{font-size:13px}
+
+/* شريط علوي */
+.bar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:8px;padding:12px 16px;padding-top:max(12px,env(safe-area-inset-top));background:rgba(245,244,240,.92);backdrop-filter:blur(10px);border-bottom:1px solid transparent}
+.brand{font-weight:800;font-size:22px;flex:1}
+.icon{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:18px;flex:none}
+.icon:hover{background:var(--soft)}.icon.on{background:#FFF3C4}
+.ind{font-size:12px;padding:5px 10px;border-radius:20px;background:var(--soft);color:var(--mut);white-space:nowrap;cursor:pointer;transition:.2s}
+.ind.ok{background:#E6F4EC;color:var(--green)}.ind.err{background:#FDECEA;color:var(--red)}.ind.off,.ind.wait{background:#FFF6DB;color:#9A6B00}.ind.saving,.ind.sync{background:#E8F0FE;color:#1A56C4}
+
+/* بحث وفلاتر */
+.search{padding:4px 16px 8px}
+.search input{width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 16px;outline:none}
+.search input:focus{border-color:#BDB8AE}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 16px 8px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:7px 14px;border-radius:20px;background:#fff;border:1px solid var(--line);font-size:14px;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.chip .dot{width:9px;height:9px;border-radius:50%;background:var(--c)}
+.chip.on{background:var(--c,var(--ink));border-color:var(--c,var(--ink));color:#fff}
+.chip.on .dot{background:#fff}
+
+/* بطاقات التقارير */
+.grp{padding:14px 18px 4px;font-size:13px;font-weight:700;color:var(--mut)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;padding:0 16px}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:14px 16px;cursor:pointer;border-inline-start:5px solid var(--lc);transition:transform .15s;display:flex;flex-direction:column;gap:6px;min-width:0}
+.card:active{transform:scale(.985)}
+.card-top{display:flex;align-items:center;gap:6px;font-size:12px}
+.tp{color:var(--mut);font-weight:700}
+.lb{padding:2px 9px;border-radius:10px;background:var(--lcl);color:var(--lc);font-weight:700}
+.card-top .pin{margin-inline-start:auto}
+.card h4{margin:0;font-size:17px;font-weight:800;line-height:1.4;overflow-wrap:anywhere}
+.card-meta{font-size:13px;color:var(--mut)}
+.snip{margin:0;font-size:14px;color:#4B5058;line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card-foot{font-size:12px;color:var(--mut);display:flex;gap:10px}
+.card-foot .red{color:var(--red);font-weight:700}
+.empty{text-align:center;padding:60px 20px;color:var(--mut)}
+.empty .big{font-size:46px}
+.fab{position:fixed;bottom:calc(84px + env(safe-area-inset-bottom));left:max(18px,calc(50% - 572px));width:58px;height:58px;border-radius:18px;background:var(--ink);color:#fff;font-size:30px;box-shadow:0 8px 24px rgba(0,0,0,.25);z-index:25}
+
+/* شريط التنقل */
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:30;display:flex;justify-content:center;gap:4px;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:6px 8px calc(6px + env(safe-area-inset-bottom))}
+.nav a{flex:1;max-width:160px;display:flex;flex-direction:column;align-items:center;font-size:12px;padding:6px;border-radius:12px;color:var(--mut);position:relative;font-weight:700}
+.nav a span{font-size:20px}
+.nav a.on{color:var(--ink);background:var(--soft)}
+.nb{position:absolute;top:2px;inset-inline-end:calc(50% - 26px);background:var(--red);color:#fff;font-size:10px;min-width:18px;height:18px;border-radius:9px;display:grid;place-items:center;padding:0 4px}
+
+/* المحرر */
+.ed-bar{border-bottom:3px solid var(--lc)}
+.type-pill{font-weight:800;font-size:15px}
+.bar-title{flex:1;min-width:0}
+.editor{padding:8px 16px 40px;max-width:820px;margin:0 auto}
+.ed-title{width:100%;border:0;background:none;font-size:24px;font-weight:800;padding:10px 0;outline:none}
+.labels-pick{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 12px}
+.meta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:12px}
+.meta-grid label{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:0 12px}
+.meta-grid input{flex:1;border:0;outline:none;padding:11px 0;background:none;min-width:0}
+.fld{background:#fff;border-radius:var(--r);box-shadow:var(--sh);padding:12px 14px;margin-bottom:12px}
+.fld h3{margin:0 0 8px;font-size:15px;font-weight:800;color:var(--lc);display:flex;align-items:center;gap:6px}
+.in{width:100%;border:1px solid transparent;background:var(--bg);border-radius:10px;padding:10px 12px;outline:none;resize:none;line-height:1.6}
+.in:focus{border-color:#D5D1C8;background:#fff}
+textarea.auto{overflow:hidden;min-height:44px}
+.lst{margin:0;padding:0;list-style:none;counter-reset:n}
+.lst li{display:flex;align-items:flex-start;gap:6px;counter-increment:n;padding:2px 0}
+.lst li::before{content:counter(n);flex:none;width:24px;height:24px;margin-top:9px;border-radius:8px;background:var(--lcl);color:var(--lc);font-size:12px;font-weight:800;display:grid;place-items:center}
+.li-in,.add-in{flex:1;border:0;background:none;outline:none;resize:none;padding:9px 4px;line-height:1.6;min-height:40px;overflow:hidden;border-bottom:1px dashed transparent}
+.li-in:focus{border-bottom-color:var(--line)}
+.x{flex:none;width:30px;height:30px;margin-top:6px;border-radius:8px;color:#A0A4AB;font-size:18px}
+.x:hover{background:#FDECEA;color:var(--red)}
+.add-row{display:flex;align-items:flex-start;gap:6px;border-top:1px solid var(--soft);margin-top:4px}
+.add-row .plus{flex:none;width:24px;height:24px;margin-top:9px;border-radius:8px;border:1.5px dashed var(--lc);color:var(--lc);display:grid;place-items:center;font-weight:800}
+.chips-in{display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:var(--bg);border-radius:10px;padding:6px}
+.pchip{display:inline-flex;align-items:center;gap:2px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:3px 6px 3px 12px;font-size:14px}
+.pchip button{width:22px;height:22px;border-radius:50%;color:#999}
+.p-in{flex:1;min-width:140px;border:0;background:none;outline:none;padding:7px}
+.ghost{border:1.5px dashed var(--line);border-radius:12px;padding:9px 14px;color:var(--mut);font-weight:700;margin-top:8px;width:100%}
+.ghost:hover{border-color:var(--lc,#999);color:var(--lc,var(--ink))}
+.ghost.sm{width:auto;font-size:13px;padding:6px 12px}
+.dec{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--soft)}
+.dec-n{flex:none;width:28px;height:28px;border-radius:9px;background:var(--lc);color:#fff;display:grid;place-items:center;font-weight:800;margin-top:6px}
+.dec-main{flex:1;min-width:0}
+.dec-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;align-items:center}
+.dec-row label{display:flex;align-items:center;gap:4px;background:var(--bg);border-radius:10px;padding:0 8px;flex:1;min-width:130px}
+.dec-row input{border:0;background:none;outline:none;padding:8px 0;flex:1;min-width:0}
+.dec-row select{border:0;background:var(--bg);border-radius:10px;padding:8px}
+.banner{background:#FFF8E6;border:1px solid #F5DFA0;border-radius:var(--r);padding:12px 14px;margin-bottom:12px}
+.banner b{color:#8A5A00}
+.banner ul{margin:8px 0;padding-inline-start:20px;font-size:14px;line-height:1.8}
+.banner .acts{display:flex;gap:8px;flex-wrap:wrap}
+.btn{background:var(--ink);color:#fff;border-radius:12px;padding:11px 18px;font-weight:700}
+.btn.sm{padding:7px 12px;font-size:13px}
+.btn.light{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.btn:disabled{opacity:.5}
+
+/* النوافذ المنبثقة */
+.ov{position:fixed;inset:0;z-index:50;background:rgba(20,20,20,0);display:flex;align-items:flex-end;justify-content:center;transition:background .2s}
+.ov.show{background:rgba(20,20,20,.45)}
+.sheet{background:#fff;width:100%;max-width:640px;max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding:10px 18px calc(20px + env(safe-area-inset-bottom));transform:translateY(100%);transition:transform .22s ease-out}
+.ov.show .sheet{transform:none}
+@media(min-width:700px){.ov{align-items:center}.sheet{border-radius:22px}}
+.grab{width:42px;height:5px;border-radius:3px;background:#DDD;margin:0 auto 10px}
+.sheet h3{margin:4px 0 14px;font-size:19px}
+.type-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.type-grid button{background:var(--bg);border-radius:16px;padding:18px 12px;display:flex;flex-direction:column;align-items:center;gap:4px;border:2px solid transparent}
+.type-grid button:hover{border-color:var(--tc)}
+.type-grid span{font-size:34px}.type-grid b{font-size:17px}.type-grid small{color:var(--mut);font-size:12px;text-align:center}
+.menu-list button{display:flex;width:100%;gap:10px;padding:14px 10px;border-radius:12px;font-weight:700}
+.menu-list button:hover{background:var(--bg)}
+.menu-list .danger{color:var(--red)}
+.pv{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 12px;justify-content:center}
+.pv-page{flex:none;text-align:center;font-size:12px;color:var(--mut)}
+.pv-box{width:222px;height:314px;overflow:hidden;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.15);margin-bottom:6px;position:relative;background:#fff}
+.pv-box .paper{position:absolute;top:0;right:0;transform:scale(.2796);transform-origin:top right;pointer-events:none}
+.share-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:8px 0}
+.share-grid button{background:var(--bg);border-radius:14px;padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:26px}
+.share-grid b{font-size:15px}.share-grid small{font-size:11px;color:var(--mut)}
+.share-grid button:disabled{opacity:.5}
+.toast{position:fixed;bottom:calc(96px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:10px 18px;border-radius:12px;font-size:14px;z-index:60;opacity:0;transition:.25s;pointer-events:none;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%)}
+
+/* المتابعات */
+.tabs{display:flex;gap:4px;padding:4px 16px 10px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:none;padding:9px 14px;border-radius:12px;font-weight:700;color:var(--mut);font-size:14px}
+.tabs button.on{background:var(--ink);color:#fff}
+.tabs b{background:var(--red);color:#fff;border-radius:9px;padding:0 6px;font-size:11px;margin-inline-start:4px}
+.fwrap{padding:0 16px}
+.f-filters{display:flex;gap:8px;padding:0 16px 8px;align-items:center}
+.f-filters select{border:1px solid var(--line);background:#fff;border-radius:12px;padding:8px 10px;max-width:60%}
+.seg{display:flex;gap:6px;margin-bottom:10px;overflow-x:auto}
+.seg button{flex:1;min-width:84px;padding:9px 6px;border-radius:12px;background:#fff;border:1px solid var(--line);font-weight:700;font-size:13px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.seg button b{font-size:18px;color:var(--c)}
+.seg button.on{background:var(--c);border-color:var(--c);color:#fff}
+.seg button.on b{color:#fff}
+.board{display:block}
+.col{display:none}.col.active{display:block}
+.col-h{display:none}
+@media(min-width:900px){
+  .seg{display:none}
+  .board{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;align-items:start}
+  .col{display:block;background:#EBE9E3;border-radius:var(--r);padding:10px;min-height:200px}
+  .col.dragover{outline:2px dashed var(--ink)}
+  .col-h{display:flex;justify-content:space-between;font-weight:800;padding:2px 4px 10px;color:var(--c)}
+}
+.dcard{background:#fff;border-radius:14px;box-shadow:var(--sh);padding:12px 14px;margin-bottom:10px;border-inline-start:4px solid var(--lc);transition:transform .2s,opacity .2s;touch-action:pan-y;user-select:none}
+.dcard.moved{animation:pop .35s}
+@keyframes pop{0%{transform:scale(.96)}60%{transform:scale(1.02)}100%{transform:none}}
+.d-text{font-weight:700;line-height:1.55;overflow-wrap:anywhere}
+.d-meta{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:13px;color:var(--mut);margin:6px 0}
+.who{display:inline-flex;align-items:center;gap:5px;color:var(--ink)}
+.who.none{color:var(--red)}
+.av,.who i{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;color:#fff;font-style:normal;font-size:11px;font-weight:800;flex:none}
+.src{text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.due{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700}
+.due-bar{flex:1;height:6px;border-radius:4px;background:#EEE;overflow:hidden}
+.due-bar i{display:block;height:100%;border-radius:4px}
+.due.done{color:var(--green)}.due.none{color:#A0A4AB}
+.d-acts{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.d-acts button{width:36px;height:30px;border-radius:9px;background:var(--bg);font-weight:800}
+.d-acts button:disabled{opacity:.25}
+.st{font-size:12px;font-weight:800;padding:3px 10px;border-radius:10px}
+.st-todo{background:#F1F2F4;color:#4B5058}.st-doing{background:#E8F0FE;color:#1A56C4}.st-done{background:#E6F4EC;color:var(--green)}
+.empty-col{color:#A0A4AB;text-align:center;padding:30px 0;font-size:14px}
+.hint{text-align:center;color:#A0A4AB;font-size:12px}
+.person{background:#fff;border-radius:var(--r);box-shadow:var(--sh);margin-bottom:10px;overflow:hidden}
+.p-row{display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;text-align:start}
+.p-row .av{width:36px;height:36px;font-size:15px}
+.pn{font-weight:800;flex:1}
+.badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.bd{font-size:11px;padding:3px 8px;border-radius:9px;background:#F1F2F4;color:#4B5058}
+.bd.red{background:#FDECEA;color:var(--red)}.bd.green{background:#E6F4EC;color:var(--green)}
+.person .plist{padding:0 12px 4px;background:var(--bg);padding-top:10px}
+.rings{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.ringc{background:#fff;border-radius:var(--r);box-shadow:var(--sh);padding:14px;display:flex;gap:14px;align-items:center;border-top:4px solid var(--lc)}
+.ringc h4{margin:0 0 6px;font-size:17px}
+.ringc p{margin:2px 0;font-size:13px;color:var(--mut)}
+.period{display:flex;gap:6px;margin-bottom:12px}
+.ents{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.ent{background:#fff;border-radius:var(--r);box-shadow:var(--sh);padding:14px;text-align:start;display:flex;flex-direction:column;gap:4px}
+.ent b{font-size:17px}.ent small{color:var(--mut)}
+.timeline{position:relative;padding-inline-start:26px;margin-top:10px}
+.timeline::before{content:"";position:absolute;inset-inline-start:9px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl-item{position:relative;margin-bottom:18px}
+.tl-dot{position:absolute;inset-inline-start:-23px;top:4px;width:14px;height:14px;border-radius:50%;background:var(--lc);border:3px solid var(--bg)}
+.tl-date{font-size:12px;color:var(--mut);margin-bottom:4px}
+.tl-card{display:block;background:#fff;border-radius:14px;box-shadow:var(--sh);padding:10px 14px}
+.tl-card b{display:block}
+.tl-dec{font-size:13px;padding:6px 10px;display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}
+.red{color:var(--red)}
+.orph{background:#fff;border-radius:14px;box-shadow:var(--sh);padding:12px 14px;margin-bottom:10px;border-inline-start:4px solid var(--red)}
+.orph .dec-row label{background:var(--bg)}
+.orph .dec-row label.miss{outline:1.5px solid #F4B4AE}
+
+/* الإعدادات وتسجيل الدخول */
+.settings{padding:0 16px;max-width:720px;margin:0 auto}
+.card-s{background:#fff;border-radius:var(--r);box-shadow:var(--sh);padding:16px;margin-bottom:14px}
+.card-s h3{margin:0 0 12px;font-size:17px}
+.lbl-row{border-bottom:1px solid var(--soft);padding:8px 0}
+.lbl-main{display:flex;align-items:center;gap:8px}
+.sw{width:38px;height:38px;border-radius:12px;flex:none;box-shadow:inset 0 0 0 2px rgba(0,0,0,.08)}
+.lbl-name{flex:1}
+.cnt{font-size:12px;color:var(--mut);white-space:nowrap}
+.presets{display:none;flex-wrap:wrap;gap:8px;padding:10px 0 4px;align-items:center}
+.lbl-row.open .presets{display:flex}
+.presets button{width:30px;height:30px;border-radius:50%;box-shadow:inset 0 0 0 2px rgba(0,0,0,.08)}
+.presets button.sel{outline:3px solid var(--ink);outline-offset:2px}
+.presets label{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--mut);cursor:pointer;padding:4px 8px;border-radius:10px;background:var(--bg)}
+.presets input[type=color]{width:28px;height:28px;border:0;padding:0;background:none}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.fl{display:block;font-size:13px;color:var(--mut);margin:10px 0 4px}
+.login{max-width:420px;margin:0 auto;padding:60px 22px}
+.login .logo{font-size:56px;text-align:center}
+.login h1{text-align:center;margin:6px 0 2px}
+.login p.c{text-align:center;color:var(--mut);margin:0 0 26px}
+.login .in{background:#fff;border:1px solid var(--line)}
+.login .btn{width:100%;margin-top:16px;padding:14px}
+.link{color:var(--mut);text-decoration:underline;margin-top:18px;display:block;width:100%;font-size:14px}
+.err-msg{color:var(--red);font-size:14px;min-height:20px;margin-top:8px}
+
+/* ===== الورقة المطبوعة / المصدّرة ===== */
+#paperHost{position:fixed;top:0;left:-10000px;width:794px}
+#printHost{display:none}
+.paper{width:794px;min-height:1123px;background:#fff;color:#1F2328;font-family:Tajawal,sans-serif;direction:rtl;display:flex;flex-direction:column;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.p-head{padding:34px 46px 28px}
+.p-kind{font-size:14px;font-weight:700;opacity:.92}
+.p-head h1{font-size:29px;margin:8px 0 10px;font-weight:800;line-height:1.4}
+.p-meta{font-size:14px;opacity:.95;line-height:1.7}
+.p-body{padding:26px 46px 20px;flex:1}
+.p-sec{margin:0 0 22px;break-inside:avoid}
+.p-sec h2{font-size:16px;font-weight:800;color:var(--pc);border-bottom:2px solid var(--pcl);padding-bottom:6px;margin:0 0 10px}
+.p-list{margin:0;padding-inline-start:22px;font-size:15px;line-height:1.85}
+.p-chips span{display:inline-block;background:#F2F3F5;border-radius:20px;padding:3px 12px;margin:0 0 6px 6px;font-size:14px}
+.p-text{font-size:15px;line-height:1.85;margin:0}
+.p-table{width:100%;border-collapse:collapse;font-size:14px}
+.p-table th{background:var(--pcl);text-align:right;padding:8px 10px;font-weight:800;font-size:13px}
+.p-table td{padding:9px 10px;border-bottom:1px solid #ECECEC;vertical-align:top;line-height:1.6}
+.p-table td.n{width:30px;color:#8A8F98;font-weight:700}
+.p-pill{display:inline-block;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:700;white-space:nowrap}
+.p-stats{display:flex;gap:10px;margin-bottom:16px}
+.p-stat{flex:1;border:1px solid #ECECEC;border-radius:12px;padding:10px 6px;text-align:center;font-size:13px;color:#6B7280}
+.p-stat b{display:block;font-size:26px;color:#1F2328}
+.p-prog{height:10px;background:#EEE;border-radius:6px;overflow:hidden;margin:0 0 24px;display:flex}
+.p-prog i{display:block;height:100%}
+.p-foot{padding:14px 46px;font-size:12px;color:#8A8F98;border-top:1px solid #EEE;display:flex;justify-content:space-between}
+.p-empty{color:#A0A4AB;text-align:center;padding:40px}
+.p-sub{font-size:13px;color:#8A8F98;margin:-4px 0 10px}
+
+@media print{
+  @page{size:A4;margin:0}
+  body.printing>*:not(#printHost){display:none!important}
+  body.printing #printHost{display:block}
+  body.printing{background:#fff}
+  #printHost .paper{width:210mm;min-height:297mm;page-break-after:always;break-after:page}
+  #printHost .paper:last-child{page-break-after:auto;break-after:auto}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="paperHost" aria-hidden="true"></div>
+<div id="printHost"></div>
+<div id="toast" class="toast"></div>
+
+<script>
+'use strict';
+/* =========================================================
+   الإعداد
+   ضع رابط Apps Script هنا (أو أدخله من شاشة الدخول)
+   ========================================================= */
+const DEFAULT_API = '';
+
+const LS = { state:'tq_state_v1', outbox:'tq_outbox_v1', token:'tq_token', api:'tq_api', mode:'tq_mode', lastLabel:'tq_last_label' };
+
+const DEFAULT_LABELS = [
+  { id:'tazaami',  name:'تازعمي',    color:'#F08A24' },
+  { id:'istiqama', name:'الاستقامة', color:'#0F9D74' },
+  { id:'icone',    name:'أيقونة',    color:'#2F6FEB' },
+  { id:'home',     name:'المنزل',    color:'#A87C50' }
+];
+const PRESETS = ['#F08A24','#E5484D','#D6409F','#8E4EC6','#6E56CF','#2F6FEB','#0091B3','#0F9D74','#46A758','#B5A200','#A87C50','#4B5563'];
+
+const TYPES = {
+  meeting:{ name:'جلسة', icon:'🤝', color:'#2F6FEB', desc:'اجتماع، لقاء عمل، جلسة لجنة',
+    titlePh:'موضوع الجلسة', entityPh:'مع من؟ (الجهة)',
+    fields:[
+      {k:'attendees', l:'الحضور', t:'people'},
+      {k:'absent', l:'الغائبون', t:'people'},
+      {k:'objectives', l:'الأهداف', t:'list', one:'هدفاً'},
+      {k:'points', l:'نقاط الجلسة', t:'list', one:'نقطة'},
+      {k:'decisions', l:'القرارات والمخرجات', t:'decisions'} ]},
+  nadwa:{ name:'ندوة', icon:'🎤', color:'#8E4EC6', desc:'محاضرة أو ندوة حضرتها',
+    titlePh:'عنوان الندوة', entityPh:'الجهة / المناسبة',
+    fields:[
+      {k:'speakers', l:'المحاضر / المتدخلون', t:'list', one:'اسماً'},
+      {k:'organizer', l:'الجهة المنظمة', t:'text'},
+      {k:'axes', l:'المحاور', t:'list', one:'محوراً'},
+      {k:'ideas', l:'أهم الأفكار', t:'list', one:'فكرة'},
+      {k:'quotes', l:'اقتباسات', t:'list', one:'اقتباساً'},
+      {k:'questions', l:'أسئلة الجمهور', t:'list', one:'سؤالاً'},
+      {k:'conclusion', l:'الخلاصة', t:'textarea'} ]},
+  training:{ name:'تكوين', icon:'🎓', color:'#0F9D74', desc:'دورة، ورشة، حصة تكوينية',
+    titlePh:'عنوان التكوين', entityPh:'الجهة المكوِّنة',
+    fields:[
+      {k:'trainer', l:'المكوّن', t:'text'},
+      {k:'session', l:'اليوم / الحصة', t:'text', ph:'مثلاً: اليوم 2 من 5'},
+      {k:'axes', l:'المحاور', t:'list', one:'محوراً'},
+      {k:'learned', l:'ما تعلمته', t:'list', one:'فكرة'},
+      {k:'exercises', l:'التطبيقات', t:'list', one:'تطبيقاً'},
+      {k:'apply', l:'ما سأطبقه عملياً', t:'list', one:'خطوة'} ]},
+  diary:{ name:'يوميات', icon:'📔', color:'#D97706', desc:'خلاصة يومك', noEntity:true,
+    titlePh:'عنوان اليوم (اختياري)',
+    fields:[
+      {k:'done', l:'ما أنجزت', t:'list', one:'إنجازاً'},
+      {k:'learned', l:'ما تعلمت', t:'list', one:'فكرة'},
+      {k:'concerns', l:'ما يشغلني', t:'textarea'},
+      {k:'tomorrow', l:'أولويات الغد', t:'list', one:'أولوية'} ]}
+};
+const STATUS = [ {k:'todo',n:'قيد الانتظار'}, {k:'doing',n:'جارٍ'}, {k:'done',n:'أُنجز'} ];
+const stName = k => (STATUS.find(s=>s.k===k)||STATUS[0]).n;
+
+/* =========================================================
+   أدوات عامة
+   ========================================================= */
+const $  = (s,el=document)=>el.querySelector(s);
+const $$ = (s,el=document)=>[...el.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const nl2br = s => s.replace(/\n/g,'<br>');
+const pad = n => String(n).padStart(2,'0');
+const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+function load(k){ try{ return JSON.parse(localStorage.getItem(k)); }catch(e){ return null; } }
+function store(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){ toast('تعذّر الحفظ على الجهاز: المساحة ممتلئة'); } }
+function nowLocal(){ const d=new Date(); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`; }
+const todayStr = () => nowLocal().slice(0,10);
+function parseLocal(s){ if(!s) return null; const [d,t='00:00']=String(s).split('T'); const [y,m,dd]=d.split('-').map(Number); const [hh,mm]=t.split(':').map(Number); return new Date(y,(m||1)-1,dd||1,hh||0,mm||0); }
+const daysBetween = (a,b) => Math.round((parseLocal(b.slice(0,10)) - parseLocal(a.slice(0,10))) / 864e5);
+const LOC = 'ar-DZ-u-nu-latn';
+function fmtLong(s){ const d=parseLocal(s); return d ? d.toLocaleDateString(LOC,{weekday:'long',day:'numeric',month:'long',year:'numeric'}) : ''; }
+function fmtDay(s){ const d=parseLocal(s); return d ? d.toLocaleDateString(LOC,{day:'numeric',month:'long'}) : ''; }
+function fmtDue(s){ const d=parseLocal(s); return d ? d.toLocaleDateString(LOC,{day:'numeric',month:'short',year:'numeric'}) : '—'; }
+function fmtShort(s){
+  if(!s) return '';
+  const diff = daysBetween(s, todayStr());
+  if(diff===0) return 'اليوم ' + s.slice(11,16);
+  if(diff===1) return 'أمس ' + s.slice(11,16);
+  return fmtDay(s);
+}
+function leftText(n){
+  if(n<0){ n=-n; return n===1?'متأخر بيوم':n===2?'متأخر بيومين':n<=10?`متأخر بـ${n} أيام`:`متأخر بـ${n} يوماً`; }
+  if(n===0) return 'الأجل اليوم';
+  return n===1?'بقي يوم واحد':n===2?'بقي يومان':n<=10?`بقيت ${n} أيام`:`بقي ${n} يوماً`;
+}
+const norm = s => String(s||'').trim().toLowerCase().replace(/[ً-ْـ]/g,'').replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/\s+/g,' ');
+function hexA(hex,a){ const h=(hex||'#888888').replace('#',''); return '#'+h.slice(0,6)+Math.round(a*255).toString(16).padStart(2,'0'); }
+function onColor(hex){ const h=(hex||'#888888').replace('#',''); const [r,g,b]=[0,2,4].map(i=>parseInt(h.substr(i,2),16)/255); const L=0.2126*r+0.7152*g+0.0722*b; return L>0.62?'#1F2328':'#FFFFFF'; }
+function avatarColor(name){ let h=0; for(const c of String(name)) h=(h*31+c.charCodeAt(0))%360; return `hsl(${h} 55% 48%)`; }
+function grow(ta){ ta.style.height='auto'; ta.style.height=ta.scrollHeight+'px'; }
+let toastT;
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('show'),2400); }
+const go = h => { location.hash = h; };
+
+/* =========================================================
+   الحالة والتخزين المحلي
+   ========================================================= */
+let S = load(LS.state) || { reports:[], decisions:[], labels: DEFAULT_LABELS.map(x=>({...x})) };
+if(!Array.isArray(S.labels) || !S.labels.length) S.labels = DEFAULT_LABELS.map(x=>({...x}));
+let OUT = load(LS.outbox) || [];
+let inflight = new Set();
+const dirty = new Set();
+let persistT;
+function persist(){ clearTimeout(persistT); store(LS.state, S); }
+function persistSoon(){ clearTimeout(persistT); persistT=setTimeout(()=>store(LS.state,S),300); }
+const saveOut = () => store(LS.outbox, OUT);
+
+const api   = () => localStorage.getItem(LS.api) || DEFAULT_API;
+const token = () => localStorage.getItem(LS.token) || '';
+const localMode = () => localStorage.getItem(LS.mode) === 'local';
+
+const label = id => S.labels.find(l=>l.id===id);
+const lc = id => (label(id)||{}).color || '#8A8F98';
+const reportById = id => S.reports.find(r=>r.id===id);
+const reportDecs = id => S.decisions.filter(d=>d.report_id===id).sort((a,b)=>a.id<b.id?-1:1);
+const cleanReport = r => { const o={}; for(const k in r) if(k[0]!=='_') o[k]=r[k]; return o; };
+const cleanDec = d => ({ id:d.id, report_id:d.report_id, text:d.text||'', owner:d.owner||'', due:d.due||'', status:d.status||'todo', done_at:d.done_at||'', created_at:d.created_at||'', updated_at:d.updated_at||'' });
+
+function hasContent(r){
+  if((r.title||'').trim() || (r.notes||'').trim() || (r.entity||'').trim()) return true;
+  for(const k in (r.details||{})){ const v=r.details[k]; if(Array.isArray(v) ? v.some(x=>String(x).trim()) : String(v||'').trim()) return true; }
+  return reportDecs(r.id).length>0;
+}
+
+/* =========================================================
+   طابور المزامنة (يعمل دون إنترنت)
+   ========================================================= */
+function enqueue(op){
+  op.opId = uid('o');
+  if(op.key) OUT = OUT.filter(o => !(o.key===op.key && !inflight.has(o.opId)));
+  OUT.push(op); saveOut(); setInd(); scheduleSync();
+}
+function queueReport(r){
+  r._sent = true;
+  enqueue({ op:'saveReport', key:'r:'+r.id, report:cleanReport(r), decisions:reportDecs(r.id).map(cleanDec) });
+}
+function changed(r){ r.updated_at = nowLocal(); dirty.add(r.id); persistSoon(); setInd(); }
+function flushDirty(){
+  if(!dirty.size) return;
+  [...dirty].forEach(id => { const r=reportById(id); if(r && hasContent(r)) queueReport(r); });
+  dirty.clear(); persist(); setInd();
+}
+setInterval(flushDirty, 3000);   // حفظ كل 3 ثوانٍ
+
+let syncing=false, lastErr='', pullAfter=false, syncT, lastPull=0;
+function scheduleSync(ms=1500){ clearTimeout(syncT); syncT=setTimeout(()=>sync(),ms); }
+
+async function call(action, payload={}){
+  const res = await fetch(api(), { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'},
+    body: JSON.stringify({ action, token:token(), ...payload }) });
+  const j = await res.json();
+  if(j.error==='AUTH'){ localStorage.removeItem(LS.token); toast('انتهت الجلسة، أدخل الرمز من جديد'); setTimeout(route,0); throw new Error('AUTH'); }
+  return j;
+}
+
+async function sync(opts={}){
+  if(localMode() || !api() || !token()){ setInd(); return; }
+  if(syncing){ pullAfter = pullAfter || !!opts.pull; return; }
+  if(!navigator.onLine){ setInd(); return; }
+  syncing=true; setInd();
+  try{
+    while(OUT.length){
+      const batch = OUT.slice(0,25), ids = batch.map(o=>o.opId);
+      inflight = new Set(ids);
+      const res = await call('batch', { ops: batch.map(({opId,key,...rest})=>rest) });
+      const doneIds = new Set(ids.slice(0, res.done||0));
+      OUT = OUT.filter(o=>!doneIds.has(o.opId)); saveOut();
+      inflight = new Set();
+      if(!res.ok) throw new Error(res.error || 'خطأ في الخادم');
+    }
+    if(opts.pull || pullAfter){
+      pullAfter=false;
+      if(isEditorOpen()) pullAfter=true;
+      else { const res = await call('getAll'); if(res.ok && !OUT.length && !dirty.size){ mergeServer(res.data); lastPull=Date.now(); } }
+    }
+    lastErr='';
+  }catch(e){ lastErr = e.message || 'تعذّر الاتصال'; }
+  finally{ syncing=false; inflight=new Set(); setInd(); if(OUT.length && !lastErr) scheduleSync(800); }
+}
+
+function mergeServer(data, first=false){
+  const srv = new Map((data.reports||[]).map(r=>[r.id, {...r, details:r.details||{}, _sent:true}]));
+  if(first){ // أول دخول: ما هو محلي فقط يُرسل للشيت
+    S.reports.forEach(r=>{ if(!srv.has(r.id) && hasContent(r)) { srv.set(r.id, r); setTimeout(()=>queueReport(r),0); } });
+  }
+  const localDecs = S.decisions;
+  S.reports = [...srv.values()];
+  S.decisions = (data.decisions||[]).slice();
+  if(first) localDecs.forEach(d=>{ if(!S.decisions.some(x=>x.id===d.id) && srv.has(d.report_id)) S.decisions.push(d); });
+  if(Array.isArray(data.labels) && data.labels.length){ if(!OUT.some(o=>o.key==='labels')) S.labels = data.labels; }
+  else enqueue({ op:'saveLabels', key:'labels', labels:S.labels });
+  persist();
+  if(!isEditorOpen()) route();
+}
+
+function maybePull(){ if(!localMode() && token() && Date.now()-lastPull>60000 && !isEditorOpen()){ lastPull=Date.now(); sync({pull:true}); } }
+
+function indInfo(){
+  if(localMode()) return ['local','على الجهاز فقط'];
+  if(dirty.size) return ['saving','جارٍ الحفظ…'];
+  if(syncing) return ['sync','مزامنة…'];
+  if(!navigator.onLine) return ['off', OUT.length ? `دون إنترنت · ${OUT.length} بانتظار` : 'دون إنترنت · محفوظ'];
+  if(lastErr) return ['err','تعذّرت المزامنة ↻'];
+  if(OUT.length) return ['wait',`بانتظار المزامنة (${OUT.length})`];
+  return ['ok','متزامن ✓'];
+}
+function setInd(){ const el=$('#ind'); if(!el) return; const [c,t]=indInfo(); el.className='ind '+c; el.textContent=t; }
+document.addEventListener('click', e=>{ if(e.target.id==='ind'){ flushDirty(); sync({pull:!isEditorOpen()}); } });
+
+/* =========================================================
+   مساعدات البيانات
+   ========================================================= */
+function knownPeople(){
+  const m=new Map();
+  const add=(n,e)=>{ n=String(n||'').trim(); if(!n) return; if(!m.has(n)) m.set(n,new Set()); if(e) m.get(n).add(norm(e)); };
+  S.reports.forEach(r=>{ (r.details.attendees||[]).forEach(n=>add(n,r.entity)); (r.details.absent||[]).forEach(n=>add(n,r.entity)); });
+  S.decisions.forEach(d=>{ const r=reportById(d.report_id); add(d.owner, r&&r.entity); });
+  return m;
+}
+function membersOf(entity){ const e=norm(entity); if(!e) return []; return [...knownPeople()].filter(([,s])=>s.has(e)).map(([n])=>n); }
+function entities(){ const m=new Map(); S.reports.forEach(r=>{ const e=(r.entity||'').trim(); if(e && !m.has(norm(e))) m.set(norm(e), e); }); return [...m.values()]; }
+function datalists(){
+  return `<datalist id="dl_people">${[...knownPeople().keys()].map(n=>`<option value="${esc(n)}">`).join('')}</datalist>
+          <datalist id="dl_entities">${entities().map(n=>`<option value="${esc(n)}">`).join('')}</datalist>`;
+}
+function dInfo(d){
+  const r = reportById(d.report_id);
+  const left = d.due ? daysBetween(todayStr(), d.due) : null;
+  return { d, r, left, overdue: d.status!=='done' && left!==null && left<0, color: lc(r && r.label) };
+}
+const overdueCount = () => S.decisions.filter(d=>reportById(d.report_id) && d.status!=='done' && d.due && d.due<todayStr()).length;
+function titleOf(r){ const T=TYPES[r.type]; return (r.title||'').trim() || `${T.name} ${fmtDay(r.date)}`; }
+function snippet(r){
+  for(const f of TYPES[r.type].fields){
+    const v=r.details[f.k];
+    if(f.t==='list' && Array.isArray(v)){ const a=v.filter(x=>String(x).trim()); if(a.length) return a.slice(0,3).join(' · '); }
+    if((f.t==='textarea'||f.t==='text') && String(v||'').trim()) return String(v);
+  }
+  return r.notes || '';
+}
+function searchText(r){
+  const parts=[r.title,r.entity,r.place,r.notes];
+  for(const k in r.details){ const v=r.details[k]; parts.push(Array.isArray(v)?v.join(' '):v); }
+  reportDecs(r.id).forEach(d=>parts.push(d.text,d.owner));
+  return norm(parts.join(' '));
+}
+function setDecStatus(id, st){
+  const d=S.decisions.find(x=>x.id===id); if(!d || d.status===st) return false;
+  d.status=st; d.done_at = st==='done' ? nowLocal() : ''; d.updated_at=nowLocal();
+  persist(); enqueue({ op:'saveDecision', key:'d:'+id, decision:cleanDec(d) });
+  return true;
+}
+function saveDec(d){ d.updated_at=nowLocal(); persistSoon(); enqueue({ op:'saveDecision', key:'d:'+d.id, decision:cleanDec(d) }); }
+function saveLabels(){ persist(); enqueue({ op:'saveLabels', key:'labels', labels:S.labels }); }
+
+/* =========================================================
+   النوافذ المنبثقة
+   ========================================================= */
+function modal(html){
+  const o=document.createElement('div'); o.className='ov';
+  o.innerHTML=`<div class="sheet"><div class="grab"></div>${html}</div>`;
+  document.body.appendChild(o);
+  requestAnimationFrame(()=>o.classList.add('show'));
+  o.addEventListener('click', e=>{ if(e.target===o) closeModal(o); });
+  return o;
+}
+function closeModal(o){ if(!o) return; o.classList.remove('show'); setTimeout(()=>o.remove(),220); }
+
+/* =========================================================
+   الموجّه
+   ========================================================= */
+const app = $('#app');
+let currentEditor = null;
+const isEditorOpen = () => !!currentEditor && location.hash.startsWith('#/r/');
+
+function route(){
+  // مغادرة المحرر: حفظ فوري، وحذف التقرير الفارغ
+  if(currentEditor && !location.hash.startsWith('#/r/'+currentEditor)){
+    const r=reportById(currentEditor);
+    flushDirty();
+    if(r && !hasContent(r)){
+      S.reports=S.reports.filter(x=>x.id!==r.id); S.decisions=S.decisions.filter(d=>d.report_id!==r.id); persist();
+      if(r._sent) enqueue({op:'deleteReport', key:'r:'+r.id, id:r.id});
+    }
+    currentEditor=null;
+    if(pullAfter) sync({pull:true});
+  }
+  $$('.ov').forEach(o=>o.remove());
+  window.scrollTo(0,0);
+  if(!localMode() && (!api() || !token())) return viewLogin();
+  const h = location.hash || '#/';
+  if(h.startsWith('#/r/')) return viewEditor(h.slice(4));
+  if(h==='#/f') { maybePull(); return viewFollow(); }
+  if(h==='#/s') return viewSettings();
+  maybePull();
+  return viewHome();
+}
+window.addEventListener('hashchange', route);
+
+function navBar(cur){
+  const late=overdueCount();
+  return `<nav class="nav">
+    <a href="#/" class="${cur==='home'?'on':''}"><span>🗂️</span>التقارير</a>
+    <a href="#/f" class="${cur==='f'?'on':''}"><span>🎯</span>المتابعات${late?`<b class="nb">${late}</b>`:''}</a>
+    <a href="#/s" class="${cur==='s'?'on':''}"><span>⚙️</span>الإعدادات</a>
+  </nav>`;
+}
+
+/* =========================================================
+   شاشة الدخول
+   ========================================================= */
+function viewLogin(){
+  app.innerHTML=`<div class="login">
+    <div class="logo">📝</div><h1>تقاريري</h1><p class="c">جلسات · ندوات · تكوينات · يوميات</p>
+    <label class="fl">رابط الخادم (Apps Script)</label>
+    <input class="in" id="lg_api" dir="ltr" placeholder="https://script.google.com/macros/s/…/exec" value="${esc(api())}">
+    <label class="fl">الرمز السري</label>
+    <input class="in" id="lg_pin" type="password" inputmode="numeric" maxlength="8" placeholder="4 إلى 8 أرقام" autocomplete="current-password">
+    <div class="err-msg" id="lg_err"></div>
+    <button class="btn" id="lg_go">دخول</button>
+    <p class="muted sm" style="text-align:center">في أول دخول: الرمز الذي تكتبه يصبح رمزك السري.</p>
+    <button class="link" id="lg_local">استعمال التطبيق على هذا الجهاز فقط (دون شيت)</button>
+  </div>`;
+  const err = m => $('#lg_err').textContent = m;
+  const doLogin = async () => {
+    const url=$('#lg_api').value.trim(), pin=$('#lg_pin').value.trim();
+    if(!/^https:\/\/script\.google(usercontent)?\.com\//.test(url)) return err('الرابط غير صحيح: يجب أن يكون رابط Web app من Apps Script');
+    if(!/^\d{4,8}$/.test(pin)) return err('الرمز من 4 إلى 8 أرقام');
+    localStorage.setItem(LS.api, url);
+    const b=$('#lg_go'); b.disabled=true; b.textContent='جارٍ الدخول…'; err('');
+    try{
+      const res = await call('login', {pin});
+      if(!res.ok){
+        b.disabled=false; b.textContent='دخول';
+        if(res.error==='BAD_PIN') return err(`رمز خاطئ، بقيت ${res.left} محاولات`);
+        if(res.error==='LOCKED') return err(`مقفل مؤقتاً بعد محاولات خاطئة، أعد بعد ${res.minutes} دقيقة`);
+        return err('رمز غير صالح');
+      }
+      localStorage.setItem(LS.token, res.token); localStorage.removeItem(LS.mode);
+      toast(res.created ? 'تم إنشاء رمزك السري ✓' : 'أهلاً بك ✓');
+      const all = await call('getAll');
+      if(all.ok) mergeServer(all.data, true);
+      lastPull=Date.now(); go('#/'); route(); sync();
+    }catch(e){ b.disabled=false; b.textContent='دخول'; err('تعذّر الوصول إلى الخادم: تحقق من الرابط ومن الإنترنت، ومن أن النشر مفتوح لـ Anyone'); }
+  };
+  $('#lg_go').onclick=doLogin;
+  $('#lg_pin').onkeydown=e=>{ if(e.key==='Enter') doLogin(); };
+  $('#lg_local').onclick=()=>{ localStorage.setItem(LS.mode,'local'); go('#/'); route(); };
+}
+
+/* =========================================================
+   الرئيسية: التقارير
+   ========================================================= */
+const UI = { q:'', type:'', label:'', archived:false };
+
+function viewHome(){
+  app.innerHTML = `
+    <header class="bar"><div class="brand">تقاريري</div><span id="ind" class="ind"></span></header>
+    <div class="search"><input id="q" type="search" placeholder="🔎 ابحث في كل التقارير والقرارات…" value="${esc(UI.q)}"></div>
+    <div class="chips" id="typeChips"></div>
+    <div class="chips" id="labelChips"></div>
+    <div id="list"></div>
+    <button class="fab" id="fab" aria-label="تقرير جديد">+</button>
+    ${navBar('home')}`;
+  setInd();
+  $('#q').oninput = e => { UI.q=e.target.value; renderHomeList(); };
+  $('#fab').onclick = openTypePicker;
+  renderHomeChips(); renderHomeList();
+}
+function renderHomeChips(){
+  $('#typeChips').innerHTML = `<button class="chip ${!UI.type?'on':''}" data-t="">الكل</button>` +
+    Object.entries(TYPES).map(([k,t])=>`<button class="chip ${UI.type===k?'on':''}" data-t="${k}" style="--c:${t.color}">${t.icon} ${t.name}</button>`).join('') +
+    `<button class="chip ${UI.archived?'on':''}" data-arch style="--c:#4B5563">🗄️ الأرشيف</button>`;
+  $('#labelChips').innerHTML = S.labels.map(l=>`<button class="chip ${UI.label===l.id?'on':''}" data-l="${l.id}" style="--c:${l.color}"><span class="dot"></span>${esc(l.name)}</button>`).join('');
+  $$('#typeChips [data-t]').forEach(b=>b.onclick=()=>{ UI.type=b.dataset.t; renderHomeChips(); renderHomeList(); });
+  $('#typeChips [data-arch]').onclick=()=>{ UI.archived=!UI.archived; renderHomeChips(); renderHomeList(); };
+  $$('#labelChips [data-l]').forEach(b=>b.onclick=()=>{ UI.label = UI.label===b.dataset.l ? '' : b.dataset.l; renderHomeChips(); renderHomeList(); });
+}
+function renderHomeList(){
+  const q=norm(UI.q);
+  let rs = S.reports.filter(r => hasContent(r) || r.id===currentEditor)
+    .filter(r => !!r.archived === UI.archived)
+    .filter(r => !UI.type || r.type===UI.type)
+    .filter(r => !UI.label || r.label===UI.label)
+    .filter(r => !q || searchText(r).includes(q))
+    .sort((a,b)=> (b.date||'').localeCompare(a.date||''));
+  const box=$('#list');
+  if(!rs.length){
+    box.innerHTML = `<div class="empty"><div class="big">${UI.q||UI.type||UI.label||UI.archived?'🔍':'📝'}</div>
+      <p>${UI.q||UI.type||UI.label||UI.archived?'لا توجد تقارير مطابقة':'لا توجد تقارير بعد'}</p>
+      ${!UI.archived?'<button class="btn" onclick="openTypePicker()">+ أول تقرير</button>':''}</div>`;
+    return;
+  }
+  const pinned = rs.filter(r=>r.pinned), rest = rs.filter(r=>!r.pinned);
+  let html = '';
+  if(pinned.length) html += `<div class="grp">📌 المثبّتة</div><div class="cards">${pinned.map(cardHtml).join('')}</div>`;
+  const months = new Map();
+  rest.forEach(r=>{ const k=(r.date||'').slice(0,7); if(!months.has(k)) months.set(k,[]); months.get(k).push(r); });
+  months.forEach((arr,k)=>{
+    const d=parseLocal(k+'-01'); const name = d ? d.toLocaleDateString(LOC,{month:'long',year:'numeric'}) : '';
+    html += `<div class="grp">${name} · ${arr.length}</div><div class="cards">${arr.map(cardHtml).join('')}</div>`;
+  });
+  box.innerHTML = html;
+  $$('.card',box).forEach(c=>c.onclick=()=>go('#/r/'+c.dataset.id));
+}
+function cardHtml(r){
+  const T=TYPES[r.type], L=label(r.label), c=lc(r.label);
+  const decs=reportDecs(r.id), open=decs.filter(d=>d.status!=='done').length, late=decs.filter(d=>dInfo(d).overdue).length;
+  const meta=[fmtShort(r.date), r.entity && (r.type==='meeting'?'مع '+r.entity:r.entity), r.place].filter(Boolean).map(esc).join(' · ');
+  return `<article class="card" data-id="${r.id}" style="--lc:${c};--lcl:${hexA(c,.12)}">
+    <div class="card-top"><span class="tp">${T.icon} ${T.name}</span>${L?`<span class="lb">${esc(L.name)}</span>`:''}${r.pinned?'<span class="pin">📌</span>':''}</div>
+    <h4>${esc(titleOf(r))}</h4>
+    <div class="card-meta">${meta}</div>
+    ${snippet(r)?`<p class="snip">${esc(snippet(r))}</p>`:''}
+    ${decs.length?`<div class="card-foot"><span>⚖️ ${decs.length} قرار${open?` · ${open} مفتوح`:' · كلها منجزة ✓'}</span>${late?`<span class="red">⏰ ${late} متأخر</span>`:''}</div>`:''}
+  </article>`;
+}
+function openTypePicker(){
+  const m = modal(`<h3>تقرير جديد</h3><div class="type-grid">${Object.entries(TYPES).map(([k,t])=>
+    `<button data-t="${k}" style="--tc:${t.color}"><span>${t.icon}</span><b>${t.name}</b><small>${t.desc}</small></button>`).join('')}</div>`);
+  $$('[data-t]',m).forEach(b=>b.onclick=()=>{ closeModal(m); newReport(b.dataset.t); });
+}
+function newReport(type){
+  const lastL = localStorage.getItem(LS.lastLabel) || '';
+  const r = { id:uid('r'), type, title:'', label: label(lastL)?lastL:'', entity:'', place:'', date:nowLocal(),
+    created_at:nowLocal(), updated_at:nowLocal(), pinned:false, archived:false, details:{}, notes:'' };
+  S.reports.unshift(r); persist(); go('#/r/'+r.id);
+}
+
+/* =========================================================
+   المحرر
+   ========================================================= */
+function viewEditor(id){
+  const r = reportById(id);
+  if(!r){ go('#/'); return; }
+  currentEditor = id;
+  const T = TYPES[r.type], c = lc(r.label);
+  app.innerHTML = `
+    <header class="bar ed-bar" id="edBar" style="--lc:${c}">
+      <button class="icon" id="edBack" aria-label="رجوع">→</button>
+      <div class="bar-title"><span class="type-pill">${T.icon} ${T.name}</span></div>
+      <span id="ind" class="ind"></span>
+      <button class="icon ${r.pinned?'on':''}" id="edPin" title="تثبيت">📌</button>
+      <button class="icon" id="edShare" title="مشاركة">📤</button>
+      <button class="icon" id="edMore" title="المزيد">⋯</button>
+    </header>
+    <main class="editor" id="edMain" style="--lc:${c};--lcl:${hexA(c,.12)}">
+      <input class="ed-title" id="f_title" placeholder="${esc(T.titlePh)}" value="${esc(r.title)}" autocomplete="off">
+      <div class="labels-pick" id="labelsPick"></div>
+      <div class="meta-grid">
+        <label title="التاريخ والوقت">📅<input type="datetime-local" id="f_date" value="${esc(r.date)}"></label>
+        ${T.noEntity?'':`<label title="الجهة">👥<input id="f_entity" list="dl_entities" placeholder="${esc(T.entityPh)}" value="${esc(r.entity)}" autocomplete="off"></label>`}
+        <label title="المكان">📍<input id="f_place" placeholder="المكان" value="${esc(r.place)}"></label>
+      </div>
+      <div id="prevBanner"></div>
+      ${T.fields.map(f=>`<section class="fld"><h3>${f.l}</h3><div id="fb_${f.k}"></div></section>`).join('')}
+      <section class="fld"><h3>ملاحظات حرة</h3><textarea id="f_notes" class="in auto" rows="2" placeholder="أي شيء آخر…">${esc(r.notes)}</textarea></section>
+    </main>
+    ${datalists()}`;
+  setInd();
+  $('#edBack').onclick = () => { if(history.length>1) history.back(); else go('#/'); };
+  $('#edPin').onclick = () => { r.pinned=!r.pinned; $('#edPin').classList.toggle('on',r.pinned); changed(r); toast(r.pinned?'ثُبّت في الأعلى':'أُلغي التثبيت'); };
+  $('#edShare').onclick = () => { flushDirty(); openReportShare(r); };
+  $('#edMore').onclick = () => editorMenu(r);
+  const bind = (sel, key, after) => { const el=$(sel); if(!el) return; el.oninput = () => { r[key]=el.value; changed(r); after && after(); }; };
+  bind('#f_title','title');
+  bind('#f_date','date');
+  bind('#f_place','place');
+  let entT; bind('#f_entity','entity', ()=>{ clearTimeout(entT); entT=setTimeout(()=>{ renderPrevBanner(r); T.fields.filter(f=>f.t==='people').forEach(f=>renderField(r,f)); },500); });
+  const notes=$('#f_notes'); notes.oninput=()=>{ r.notes=notes.value; grow(notes); changed(r); }; grow(notes);
+  renderLabelPick(r);
+  T.fields.forEach(f=>renderField(r,f));
+  renderPrevBanner(r);
+  if(!hasContent(r)) setTimeout(()=>$('#f_title').focus(),50);
+}
+function renderLabelPick(r){
+  const box=$('#labelsPick');
+  box.innerHTML = S.labels.map(l=>`<button class="chip ${r.label===l.id?'on':''}" data-l="${l.id}" style="--c:${l.color}"><span class="dot"></span>${esc(l.name)}</button>`).join('') +
+    `<button class="chip ${!r.label?'on':''}" data-l="" style="--c:#8A8F98">بدون تصنيف</button>`;
+  $$('[data-l]',box).forEach(b=>b.onclick=()=>{
+    r.label=b.dataset.l; localStorage.setItem(LS.lastLabel, r.label); changed(r);
+    const c=lc(r.label); $('#edBar').style.setProperty('--lc',c); $('#edMain').style.setProperty('--lc',c); $('#edMain').style.setProperty('--lcl',hexA(c,.12));
+    renderLabelPick(r);
+  });
+}
+function renderField(r,f){
+  const box=$('#fb_'+f.k); if(!box) return;
+  const D=r.details;
+  if(f.t==='text'){
+    box.innerHTML=`<input class="in" placeholder="${esc(f.ph||'')}" value="${esc(D[f.k]||'')}">`;
+    const el=box.firstElementChild; el.oninput=()=>{ D[f.k]=el.value; changed(r); };
+  } else if(f.t==='textarea'){
+    box.innerHTML=`<textarea class="in auto" rows="2" placeholder="اكتب هنا…">${esc(D[f.k]||'')}</textarea>`;
+    const ta=box.firstElementChild; ta.oninput=()=>{ D[f.k]=ta.value; grow(ta); changed(r); }; grow(ta);
+  } else if(f.t==='list') renderList(r,f,box);
+  else if(f.t==='people') renderPeople(r,f,box);
+  else if(f.t==='decisions') renderDecs(r,f,box);
+}
+
+/* قائمة بنود: Enter = بند جديد، مسح بند فارغ = حذفه */
+function renderList(r,f,box,focus){
+  const arr = Array.isArray(r.details[f.k]) ? r.details[f.k] : (r.details[f.k]=[]);
+  box.innerHTML = `<ol class="lst">${arr.map((v,i)=>`<li><textarea class="li-in" rows="1" data-i="${i}">${esc(v)}</textarea><button class="x" data-del="${i}" tabindex="-1" aria-label="حذف">×</button></li>`).join('')}</ol>
+    <div class="add-row"><button class="plus" data-plus aria-label="إضافة">+</button><textarea class="add-in" rows="1" placeholder="أضف ${f.one||'بنداً'}… (Enter للإضافة)"></textarea></div>`;
+  const rerender = fo => renderList(r,f,box,fo);
+  $$('.li-in',box).forEach(ta=>{
+    grow(ta);
+    const i=+ta.dataset.i;
+    ta.oninput=()=>{
+      if(ta.value.includes('\n')){ const parts=ta.value.split('\n'); arr.splice(i,1,...parts); changed(r); return rerender(i+parts.length-1); }
+      arr[i]=ta.value; grow(ta); changed(r);
+    };
+    ta.onkeydown=e=>{
+      if(e.key==='Enter' && !e.shiftKey && !e.isComposing){ e.preventDefault(); arr.splice(i+1,0,''); changed(r); rerender(i+1); }
+      else if(e.key==='Backspace' && ta.value===''){ e.preventDefault(); arr.splice(i,1); changed(r); rerender(i>0?i-1:'add'); }
+    };
+  });
+  $$('[data-del]',box).forEach(b=>b.onclick=()=>{ arr.splice(+b.dataset.del,1); changed(r); rerender(); });
+  const add=$('.add-in',box);
+  // عند مغادرة الخانة يُحفظ النص فوراً دون إعادة رسم (حتى لا تتحرك الصفحة تحت إصبعك)
+  let bound=-1;
+  const commit = (keepFocus) => {
+    const lines = add.value.split('\n').map(s=>s.trim()).filter(Boolean);
+    add.value='';
+    if(bound>=0){ arr.splice(bound,1,...lines); bound=-1; }
+    else { if(!lines.length) return; arr.push(...lines); }
+    changed(r); rerender(keepFocus?'add':undefined);
+  };
+  add.onkeydown=e=>{ if(e.key==='Enter' && !e.shiftKey && !e.isComposing){ e.preventDefault(); commit(true); } };
+  add.oninput=()=>{
+    if(add.value.includes('\n')) return commit(true);
+    grow(add);
+    if(bound>=0){ if(add.value.trim()) arr[bound]=add.value.trim(); else { arr.splice(bound,1); bound=-1; } changed(r); }
+  };
+  add.onblur=()=>{ const v=add.value.trim(); if(v && bound<0){ arr.push(v); bound=arr.length-1; changed(r); } };
+  $('[data-plus]',box).onclick=()=>{ if(add.value.trim()) commit(true); else add.focus(); };
+  if(focus==='add') add.focus();
+  else if(typeof focus==='number'){ const t=$(`.li-in[data-i="${focus}"]`,box); if(t){ t.focus(); t.setSelectionRange(t.value.length,t.value.length); } }
+}
+
+/* الأشخاص: شرائح مع اقتراح الأسماء */
+function renderPeople(r,f,box,focus){
+  const arr = Array.isArray(r.details[f.k]) ? r.details[f.k] : (r.details[f.k]=[]);
+  const taken = new Set([...(r.details.attendees||[]), ...(r.details.absent||[])]);
+  const members = membersOf(r.entity).filter(n=>!taken.has(n));
+  box.innerHTML = `<div class="chips-in">${arr.map((n,i)=>`<span class="pchip">${esc(n)}<button data-del="${i}" aria-label="حذف">×</button></span>`).join('')}
+      <input class="p-in" list="dl_people" placeholder="${arr.length?'اسم آخر…':'اكتب اسماً ثم Enter'}" autocomplete="off"></div>
+    ${members.length?`<button class="ghost sm" data-all>+ أعضاء «${esc(r.entity)}» المعروفون (${members.length})</button>`:''}`;
+  const inp=$('.p-in',box);
+  const addName=(v,refocus)=>{ v=v.replace(/[،,]/g,'').trim(); if(v && !arr.includes(v)){ arr.push(v); changed(r); } renderPeopleAll(r); if(refocus) $('#fb_'+f.k+' .p-in').focus(); };
+  inp.onkeydown=e=>{
+    if((e.key==='Enter'||e.key===','||e.key==='،') && !e.isComposing){ e.preventDefault(); if(inp.value.trim()) addName(inp.value,true); }
+    else if(e.key==='Backspace' && !inp.value && arr.length){ arr.pop(); changed(r); renderPeopleAll(r); $('#fb_'+f.k+' .p-in').focus(); }
+  };
+  inp.oninput=()=>{ if(/[،,]/.test(inp.value)) addName(inp.value,true); };
+  inp.onchange=()=>{ const v=inp.value; if(!v.trim()) return; setTimeout(()=>addName(v, document.activeElement===inp), 300); };
+  $$('[data-del]',box).forEach(b=>b.onclick=()=>{ arr.splice(+b.dataset.del,1); changed(r); renderPeopleAll(r); });
+  const all=$('[data-all]',box); if(all) all.onclick=()=>{ arr.push(...members); changed(r); renderPeopleAll(r); toast(`أُضيف ${members.length} اسماً`); };
+}
+function renderPeopleAll(r){ TYPES[r.type].fields.filter(f=>f.t==='people').forEach(f=>renderPeople(r,f,$('#fb_'+f.k))); refreshDatalists(); }
+function refreshDatalists(){ const d=document.createElement('div'); d.innerHTML=datalists(); ['dl_people','dl_entities'].forEach(id=>{ const old=$('#'+id); if(old) old.replaceWith(d.querySelector('#'+id)); }); }
+
+/* القرارات داخل الجلسة */
+function renderDecs(r,f,box,focusLast){
+  const decs=reportDecs(r.id);
+  box.innerHTML = decs.map((d,i)=>`<div class="dec" data-id="${d.id}">
+      <div class="dec-n">${i+1}</div>
+      <div class="dec-main">
+        <textarea class="in auto d-text" rows="1" placeholder="نص القرار…">${esc(d.text)}</textarea>
+        <div class="dec-row">
+          <label title="المسؤول">👤<input class="d-owner" list="dl_people" placeholder="المسؤول" value="${esc(d.owner)}" autocomplete="off"></label>
+          <label title="الأجل">⏰<input type="date" class="d-due" value="${esc(d.due)}"></label>
+          <select class="d-st">${STATUS.map(s=>`<option value="${s.k}" ${d.status===s.k?'selected':''}>${s.n}</option>`).join('')}</select>
+          <button class="x" data-del aria-label="حذف القرار">×</button>
+        </div>
+      </div></div>`).join('') + `<button class="ghost" data-add>+ إضافة قرار</button>`;
+  $$('.dec',box).forEach(el=>{
+    const d=S.decisions.find(x=>x.id===el.dataset.id);
+    const t=$('.d-text',el); grow(t);
+    t.oninput=()=>{ d.text=t.value; d.updated_at=nowLocal(); grow(t); changed(r); };
+    $('.d-owner',el).oninput=e=>{ d.owner=e.target.value; d.updated_at=nowLocal(); changed(r); };
+    $('.d-due',el).onchange=e=>{ d.due=e.target.value; d.updated_at=nowLocal(); changed(r); };
+    $('.d-st',el).onchange=e=>{ d.status=e.target.value; d.done_at=d.status==='done'?nowLocal():''; d.updated_at=nowLocal(); changed(r); };
+    $('[data-del]',el).onclick=()=>{ if(d.text.trim() && !confirm('حذف هذا القرار؟')) return; S.decisions=S.decisions.filter(x=>x.id!==d.id); changed(r); renderDecs(r,f,box); };
+  });
+  $('[data-add]',box).onclick=()=>{
+    S.decisions.push({ id:uid('d'), report_id:r.id, text:'', owner:'', due:'', status:'todo', done_at:'', created_at:nowLocal(), updated_at:nowLocal() });
+    changed(r); renderDecs(r,f,box,true);
+  };
+  if(focusLast){ const all=$$('.d-text',box); all.length && all[all.length-1].focus(); }
+}
+
+/* تنبيه: قرارات سابقة غير منجزة مع نفس الجهة */
+function prevOpen(r){
+  const e=norm(r.entity); if(!e) return [];
+  return S.decisions.filter(d=>d.report_id!==r.id && d.status!=='done' && (d.text||'').trim())
+    .map(dInfo).filter(x=>x.r && norm(x.r.entity)===e)
+    .sort((a,b)=>(a.r.date||'').localeCompare(b.r.date||''));
+}
+function renderPrevBanner(r){
+  const box=$('#prevBanner'); if(!box) return;
+  if(r.type!=='meeting'){ box.innerHTML=''; return; }
+  const items=prevOpen(r);
+  if(!items.length){ box.innerHTML=''; return; }
+  const lastDate = items[items.length-1].r.date;
+  box.innerHTML=`<div class="banner">
+    <b>⚠️ من الجلسات السابقة مع «${esc(r.entity)}»: ${items.length} ${items.length===1?'قرار لم يُنجز':items.length===2?'قراران لم يُنجزا':'قرارات لم تُنجز'}</b>
+    <ul>${items.map(x=>`<li>${esc(x.d.text)}${x.d.owner?` — <span class="muted">${esc(x.d.owner)}</span>`:''} ${x.overdue?'<span class="red">(متأخر)</span>':''} <span class="muted sm">· ${fmtDay(x.r.date)}</span></li>`).join('')}</ul>
+    <div class="acts"><button class="btn sm" id="pbIns">إدراجها في نقاط الجلسة للمراجعة</button><button class="btn sm light" id="pbThread">خيط الجهة</button></div>
+  </div>`;
+  $('#pbIns').onclick=()=>{
+    const pts = Array.isArray(r.details.points) ? r.details.points : (r.details.points=[]);
+    let n=0;
+    items.forEach(x=>{ const s=`مراجعة قرار: ${x.d.text}${x.d.owner?' ('+x.d.owner+')':''}`; if(!pts.includes(s)){ pts.push(s); n++; } });
+    changed(r); renderField(r, TYPES.meeting.fields.find(f=>f.k==='points'));
+    toast(n?`أُدرج ${n} في نقاط الجلسة`:'مُدرجة مسبقاً');
+  };
+  $('#pbThread').onclick=()=>{ UIF.tab='entities'; UIF.thread=r.entity; go('#/f'); };
+}
+function editorMenu(r){
+  const m=modal(`<h3>${esc(titleOf(r))}</h3><div class="menu-list">
+    <button data-a="arch">${r.archived?'📂 إخراج من الأرشيف':'🗄️ أرشفة'}</button>
+    <button data-a="print">🖨️ طباعة</button>
+    <button data-a="del" class="danger">🗑️ حذف التقرير</button></div>`);
+  $('[data-a=arch]',m).onclick=()=>{ r.archived=!r.archived; changed(r); flushDirty(); closeModal(m); toast(r.archived?'أُرشف التقرير':'أُخرج من الأرشيف'); if(r.archived) go('#/'); };
+  $('[data-a=print]',m).onclick=()=>{ closeModal(m); flushDirty(); printPages(reportPages(r)); };
+  $('[data-a=del]',m).onclick=()=>{
+    if(!confirm('حذف هذا التقرير وقراراته نهائياً؟')) return;
+    S.reports=S.reports.filter(x=>x.id!==r.id); S.decisions=S.decisions.filter(d=>d.report_id!==r.id);
+    dirty.delete(r.id); persist(); enqueue({op:'deleteReport', key:'r:'+r.id, id:r.id});
+    currentEditor=null; closeModal(m); toast('حُذف التقرير'); go('#/');
+  };
+}
+
+/* =========================================================
+   صفحة المتابعات
+   ========================================================= */
+const UIF = { tab:'board', label:'', entity:'', col:'overdue', period:'month', person:'', thread:'' };
+
+function fItems(ignoreLabel){
+  return S.decisions.filter(d=>(d.text||'').trim() || d.owner).map(dInfo)
+    .filter(x=>x.r && (ignoreLabel || !UIF.label || x.r.label===UIF.label) && (!UIF.entity || norm(x.r.entity)===norm(UIF.entity)));
+}
+function viewFollow(){
+  const items=fItems(), orph=items.filter(x=>x.d.status!=='done' && (!x.d.owner.trim() || !x.d.due)).length;
+  const late=items.filter(x=>x.overdue).length;
+  const tabs=[['board','📋 اللوحة',late],['people','👤 حسب الشخص',0],['labels','🏷️ حسب التصنيف',0],['entities','🧵 خيط الجهة',0],['orphans','⚠️ قرارات يتيمة',orph]];
+  app.innerHTML = `
+    <header class="bar"><div class="brand">المتابعات</div><span id="ind" class="ind"></span><button class="btn sm" id="fExport">📤 كشف</button></header>
+    <div class="chips" id="fLabels">
+      <button class="chip ${!UIF.label?'on':''}" data-l="">كل التصنيفات</button>
+      ${S.labels.map(l=>`<button class="chip ${UIF.label===l.id?'on':''}" data-l="${l.id}" style="--c:${l.color}"><span class="dot"></span>${esc(l.name)}</button>`).join('')}
+    </div>
+    <div class="f-filters"><select id="fEnt"><option value="">كل الجهات</option>${entities().map(e=>`<option ${norm(e)===norm(UIF.entity)?'selected':''}>${esc(e)}</option>`).join('')}</select></div>
+    <div class="tabs">${tabs.map(([k,n,b])=>`<button class="${UIF.tab===k?'on':''}" data-tab="${k}">${n}${b?`<b>${b}</b>`:''}</button>`).join('')}</div>
+    <div class="fwrap" id="fbody"></div>
+    ${navBar('f')}${datalists()}`;
+  setInd();
+  $$('#fLabels [data-l]').forEach(b=>b.onclick=()=>{ UIF.label=b.dataset.l; viewFollow(); });
+  $('#fEnt').onchange=e=>{ UIF.entity=e.target.value; UIF.thread=''; viewFollow(); };
+  $$('[data-tab]').forEach(b=>b.onclick=()=>{ UIF.tab=b.dataset.tab; viewFollow(); });
+  $('#fExport').onclick=()=>openShare([paperFollow()], 'كشف-المتابعات-'+todayStr(), 'كشف متابعة القرارات');
+  renderFBody();
+}
+function renderFBody(){
+  const box=$('#fbody'); if(!box) return;
+  const items=fItems();
+  if(UIF.tab==='board') box.innerHTML=boardHtml(items);
+  else if(UIF.tab==='people') box.innerHTML=peopleHtml(items);
+  else if(UIF.tab==='labels') box.innerHTML=labelsHtml();
+  else if(UIF.tab==='entities') box.innerHTML=entitiesHtml();
+  else box.innerHTML=orphansHtml(items);
+  bindFBody(box);
+}
+function sortItems(a){
+  return a.sort((x,y)=>{
+    if(x.d.status==='done' && y.d.status==='done') return (y.d.done_at||'').localeCompare(x.d.done_at||'');
+    const dx=x.d.due||'9999', dy=y.d.due||'9999'; return dx.localeCompare(dy);
+  });
+}
+function dueHtml(x){
+  const d=x.d;
+  if(d.status==='done') return `<div class="due done">✓ أُنجز ${d.done_at?fmtShort(d.done_at):''}</div>`;
+  if(!d.due) return `<div class="due none">بلا أجل</div>`;
+  const L=x.left, col = L<0?'var(--red)':L<=3?'var(--amber)':'var(--green)';
+  const start=(d.created_at||nowLocal()).slice(0,10), total=Math.max(1,daysBetween(start,d.due));
+  const pct = L<0 ? 100 : Math.round(Math.min(1,Math.max(0.04,daysBetween(start,todayStr())/total))*100);
+  return `<div class="due"><div class="due-bar"><i style="width:${pct}%;background:${col}"></i></div><span style="color:${col}">${leftText(L)}</span></div>`;
+}
+function dcard(x){
+  const d=x.d, T=TYPES[x.r.type];
+  return `<div class="dcard" draggable="true" data-id="${d.id}" style="--lc:${x.color}">
+    <div class="d-text">${esc(d.text||'(بلا نص)')}</div>
+    <div class="d-meta">${d.owner.trim()?`<span class="who"><i style="background:${avatarColor(d.owner.trim())}">${esc(d.owner.trim()[0])}</i>${esc(d.owner)}</span>`:'<span class="who none">بلا مسؤول</span>'}
+      <a class="src" href="#/r/${x.r.id}">${T.icon} ${esc(titleOf(x.r))}</a></div>
+    ${dueHtml(x)}
+    <div class="d-acts">
+      <button data-mv="-1" ${d.status==='todo'?'disabled':''} title="خطوة للوراء">→</button>
+      <span class="st st-${d.status}">${stName(d.status)}</span>
+      <button data-mv="1" ${d.status==='done'?'disabled':''} title="خطوة للأمام">←</button>
+    </div></div>`;
+}
+const COLS=[{k:'overdue',n:'⏰ متأخر',c:'#D93025'},{k:'todo',n:'قيد الانتظار',c:'#6B7280'},{k:'doing',n:'جارٍ',c:'#2F6FEB'},{k:'done',n:'أُنجز',c:'#1E9E5A'}];
+function boardHtml(items){
+  const by={overdue:[],todo:[],doing:[],done:[]};
+  items.forEach(x=>{ if(x.overdue) by.overdue.push(x); else (by[x.d.status]||by.todo).push(x); });
+  Object.values(by).forEach(sortItems); by.done=by.done.slice(0,40);
+  if(UIF.col==='overdue' && !by.overdue.length) UIF.col = by.todo.length?'todo':by.doing.length?'doing':'overdue';
+  if(!items.length) return `<div class="empty"><div class="big">🎯</div><p>لا توجد قرارات بعد.<br>القرارات التي تكتبها في الجلسات تظهر هنا تلقائياً.</p></div>`;
+  return `<div class="seg">${COLS.map(c=>`<button class="${UIF.col===c.k?'on':''}" data-col="${c.k}" style="--c:${c.c}">${c.n}<b>${by[c.k].length}</b></button>`).join('')}</div>
+    <div class="board">${COLS.map(c=>`<div class="col ${UIF.col===c.k?'active':''}" data-drop="${c.k}"><div class="col-h" style="--c:${c.c}"><span>${c.n}</span><b>${by[c.k].length}</b></div>
+      ${by[c.k].map(dcard).join('') || '<div class="empty-col">لا شيء هنا</div>'}</div>`).join('')}</div>
+    <p class="hint">اسحب البطاقة يساراً للتقدّم ويميناً للرجوع، أو استعمل الأسهم</p>`;
+}
+function peopleHtml(items){
+  const m=new Map();
+  items.forEach(x=>{ const o=(x.d.owner||'').trim(); if(!o) return; if(!m.has(o)) m.set(o,[]); m.get(o).push(x); });
+  const rows=[...m].map(([n,a])=>({ n, a, open:a.filter(x=>x.d.status!=='done').length, late:a.filter(x=>x.overdue).length, done:a.filter(x=>x.d.status==='done').length }))
+    .sort((p,q)=>q.late-p.late || q.open-p.open || p.n.localeCompare(q.n,'ar'));
+  if(!rows.length) return `<div class="empty"><div class="big">👤</div><p>لا يوجد مسؤولون بعد. حدّد مسؤولاً لكل قرار في الجلسة.</p></div>`;
+  return rows.map(p=>`<div class="person">
+    <button class="p-row" data-person="${esc(p.n)}"><i class="av" style="background:${avatarColor(p.n)}">${esc(p.n[0])}</i><span class="pn">${esc(p.n)}</span>
+      <span class="badges">${p.late?`<b class="bd red">${p.late} متأخر</b>`:''}<b class="bd">${p.open} مفتوح</b><b class="bd green">${p.done} منجز</b></span></button>
+    ${UIF.person===p.n?`<div class="plist">${sortItems(p.a.filter(x=>x.d.status!=='done')).concat(p.a.filter(x=>x.d.status==='done')).map(dcard).join('')}</div>`:''}
+  </div>`).join('');
+}
+function ring(pct,color){
+  const R=34, C=2*Math.PI*R;
+  return `<svg viewBox="0 0 84 84" width="84" height="84" style="flex:none"><circle cx="42" cy="42" r="${R}" fill="none" stroke="#EEE" stroke-width="9"/>
+    ${pct>0?`<circle cx="42" cy="42" r="${R}" fill="none" stroke="${color}" stroke-width="9" stroke-linecap="round" stroke-dasharray="${C*pct/100} ${C}" transform="rotate(-90 42 42)"/>`:''}
+    <text x="42" y="48" text-anchor="middle" font-size="18" font-weight="800" fill="#1F2328" font-family="Tajawal">${pct}%</text></svg>`;
+}
+function labelsHtml(){
+  const ym=todayStr().slice(0,7);
+  const all=fItems(true).filter(x=>UIF.period==='all' || (x.d.created_at||'').startsWith(ym) || (x.d.done_at||'').startsWith(ym) || (x.d.due||'').startsWith(ym));
+  return `<div class="period">
+      <button class="chip ${UIF.period==='month'?'on':''}" data-period="month">هذا الشهر</button>
+      <button class="chip ${UIF.period==='all'?'on':''}" data-period="all">منذ البداية</button></div>
+    <div class="rings">${S.labels.map(l=>{
+      const a=all.filter(x=>x.r.label===l.id), done=a.filter(x=>x.d.status==='done').length, late=a.filter(x=>x.overdue).length;
+      const pct=a.length?Math.round(done*100/a.length):0;
+      return `<div class="ringc" style="--lc:${l.color}">${ring(pct,l.color)}<div><h4>${esc(l.name)}</h4>
+        <p>أُنجز ${done} من ${a.length} قرار</p><p>${a.length-done} مفتوح${late?` · <span class="red">${late} متأخر</span>`:''}</p></div></div>`;
+    }).join('')}</div>`;
+}
+function entitiesHtml(){
+  if(UIF.thread) return threadHtml(UIF.thread);
+  const map=new Map();
+  S.reports.filter(r=>(r.entity||'').trim() && (!UIF.label || r.label===UIF.label)).forEach(r=>{
+    const k=norm(r.entity); if(!map.has(k)) map.set(k,{name:r.entity.trim(), reports:[]}); map.get(k).reports.push(r);
+  });
+  const list=[...map.values()].map(e=>{
+    const ids=new Set(e.reports.map(r=>r.id)), decs=S.decisions.filter(d=>ids.has(d.report_id));
+    return {...e, open:decs.filter(d=>d.status!=='done').length, late:decs.map(dInfo).filter(x=>x.overdue).length, last:e.reports.map(r=>r.date).sort().pop()};
+  }).sort((a,b)=>(b.last||'').localeCompare(a.last||''));
+  if(!list.length) return `<div class="empty"><div class="big">🧵</div><p>اكتب الجهة في تقاريرك («مع من؟») لتظهر هنا قصة العمل معها.</p></div>`;
+  return `<div class="ents">${list.map(e=>`<button class="ent" data-thread="${esc(e.name)}"><b>${esc(e.name)}</b>
+     <small>${e.reports.length} تقرير · آخرها ${fmtDay(e.last)}</small>
+     <small>${e.open} قرار مفتوح${e.late?` · <span class="red">${e.late} متأخر</span>`:''}</small></button>`).join('')}</div>`;
+}
+function threadHtml(name){
+  const rs=S.reports.filter(r=>norm(r.entity)===norm(name)).sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  const decs=S.decisions.filter(d=>rs.some(r=>r.id===d.report_id)), done=decs.filter(d=>d.status==='done').length;
+  return `<button class="btn sm light" data-thread="">→ كل الجهات</button>
+    <h2 style="margin:14px 0 4px">${esc(name)}</h2>
+    <p class="muted" style="margin:0 0 6px">${rs.length} تقرير · ${decs.length} قرار · أُنجز ${done}</p>
+    <div class="timeline">${rs.map(r=>{ const T=TYPES[r.type], ds=reportDecs(r.id).filter(d=>(d.text||'').trim());
+      return `<div class="tl-item" style="--lc:${lc(r.label)}"><div class="tl-dot"></div>
+        <div class="tl-date">${fmtLong(r.date)}</div>
+        <a class="tl-card" href="#/r/${r.id}"><b>${T.icon} ${esc(titleOf(r))}</b><span class="muted sm">${T.name}${r.place?' · '+esc(r.place):''}</span></a>
+        ${ds.map(d=>{ const x=dInfo(d); return `<div class="tl-dec"><span class="st st-${d.status}">${stName(d.status)}</span><span>${esc(d.text)}</span>${d.owner?`<span class="muted">· ${esc(d.owner)}</span>`:''}${x.overdue?'<b class="red">· متأخر</b>':''}</div>`; }).join('')}
+      </div>`; }).join('')}</div>`;
+}
+function orphansHtml(items){
+  const a=sortItems(items.filter(x=>x.d.status!=='done' && (!x.d.owner.trim() || !x.d.due)));
+  if(!a.length) return `<div class="empty"><div class="big">✅</div><p>ممتاز! كل القرارات المفتوحة لها مسؤول وأجل.</p></div>`;
+  return `<p class="muted sm">القرار الذي ليس له صاحب أو موعد لا يُنفَّذ عادة. أكمل الناقص هنا مباشرة:</p>` +
+    a.map(x=>`<div class="orph" data-id="${x.d.id}"><div class="d-text">${esc(x.d.text||'(بلا نص)')}</div>
+      <div class="d-meta"><a class="src" href="#/r/${x.r.id}">${TYPES[x.r.type].icon} ${esc(titleOf(x.r))}</a></div>
+      <div class="dec-row">
+        <label class="${x.d.owner.trim()?'':'miss'}">👤<input class="o-owner" list="dl_people" placeholder="المسؤول" value="${esc(x.d.owner)}"></label>
+        <label class="${x.d.due?'':'miss'}">⏰<input type="date" class="o-due" value="${esc(x.d.due)}"></label>
+      </div></div>`).join('');
+}
+function bindFBody(box){
+  $$('[data-col]',box).forEach(b=>b.onclick=()=>{ UIF.col=b.dataset.col; renderFBody(); });
+  $$('[data-person]',box).forEach(b=>b.onclick=()=>{ UIF.person = UIF.person===b.dataset.person ? '' : b.dataset.person; renderFBody(); });
+  $$('[data-period]',box).forEach(b=>b.onclick=()=>{ UIF.period=b.dataset.period; renderFBody(); });
+  $$('[data-thread]',box).forEach(b=>b.onclick=()=>{ UIF.thread=b.dataset.thread; renderFBody(); });
+  $$('[data-mv]',box).forEach(b=>b.onclick=e=>{ e.stopPropagation(); moveDec(b.closest('.dcard').dataset.id, +b.dataset.mv); });
+  // سحب باللمس
+  $$('.dcard',box).forEach(el=>{
+    let x0=0,y0=0,dx=0,moving=false;
+    el.addEventListener('touchstart',e=>{ const t=e.touches[0]; x0=t.clientX; y0=t.clientY; dx=0; moving=false; el.style.transition='none'; },{passive:true});
+    el.addEventListener('touchmove',e=>{ const t=e.touches[0]; dx=t.clientX-x0; const dy=t.clientY-y0;
+      if(!moving && Math.abs(dx)>14 && Math.abs(dx)>Math.abs(dy)*1.6) moving=true;
+      if(moving){ el.style.transform=`translateX(${dx}px) rotate(${dx/40}deg)`; el.style.opacity=String(1-Math.min(.45,Math.abs(dx)/320)); } },{passive:true});
+    el.addEventListener('touchend',()=>{ el.style.transition=''; el.style.transform=''; el.style.opacity='';
+      if(moving && Math.abs(dx)>80) moveDec(el.dataset.id, dx<0?1:-1); });
+    // سحب وإفلات بالفأرة
+    el.addEventListener('dragstart',e=>{ e.dataTransfer.setData('text/plain', el.dataset.id); el.style.opacity='.5'; });
+    el.addEventListener('dragend',()=>{ el.style.opacity=''; });
+  });
+  $$('[data-drop]',box).forEach(col=>{
+    col.addEventListener('dragover',e=>{ e.preventDefault(); col.classList.add('dragover'); });
+    col.addEventListener('dragleave',()=>col.classList.remove('dragover'));
+    col.addEventListener('drop',e=>{ e.preventDefault(); col.classList.remove('dragover');
+      const id=e.dataTransfer.getData('text/plain'), st=col.dataset.drop;
+      if(st==='overdue') return toast('عمود «متأخر» يُحسب تلقائياً من الأجل');
+      if(setDecStatus(id,st)){ toast(`نُقل إلى «${stName(st)}»`); afterMove(id); } });
+  });
+  // القرارات اليتيمة
+  $$('.orph',box).forEach(el=>{
+    const d=S.decisions.find(x=>x.id===el.dataset.id);
+    const done=()=>{ saveDec(d); if(d.owner.trim() && d.due){ toast('اكتمل القرار ✓'); setTimeout(viewFollow,400); } else el.querySelectorAll('label').forEach((l,i)=>l.classList.toggle('miss', i===0?!d.owner.trim():!d.due)); };
+    $('.o-owner',el).onchange=e=>{ d.owner=e.target.value.trim(); done(); };
+    $('.o-due',el).onchange=e=>{ d.due=e.target.value; done(); };
+  });
+}
+function moveDec(id,dir){
+  const d=S.decisions.find(x=>x.id===id); if(!d) return;
+  const order=['todo','doing','done'], i=order.indexOf(d.status), n=Math.max(0,Math.min(2,(i<0?0:i)+dir));
+  if(setDecStatus(id, order[n])){ toast(`نُقل إلى «${stName(order[n])}»`); afterMove(id); }
+}
+function afterMove(id){
+  const tabs=$$('.tabs [data-tab]'); if(tabs.length){ viewFollow(); } else renderFBody();
+  const el=$(`.dcard[data-id="${id}"]`); if(el) el.classList.add('moved');
+}
+
+/* =========================================================
+   الإعدادات
+   ========================================================= */
+function viewSettings(){
+  const used = id => S.reports.filter(r=>r.label===id).length;
+  app.innerHTML = `
+    <header class="bar"><div class="brand">الإعدادات</div><span id="ind" class="ind"></span></header>
+    <main class="settings">
+      <section class="card-s"><h3>🏷️ التصنيفات وألوانها</h3>
+        <p class="muted sm" style="margin-top:-6px">اضغط على مربع اللون لتغييره. اللون يظهر في البطاقات والتقارير المطبوعة.</p>
+        <div id="lblList">${S.labels.map(l=>`<div class="lbl-row" data-id="${l.id}">
+          <div class="lbl-main"><button class="sw" style="background:${l.color}" aria-label="تغيير اللون"></button>
+            <input class="in lbl-name" value="${esc(l.name)}"><span class="cnt">${used(l.id)} تقرير</span><button class="x" data-del aria-label="حذف">×</button></div>
+          <div class="presets">${PRESETS.map(c=>`<button data-c="${c}" class="${c.toLowerCase()===l.color.toLowerCase()?'sel':''}" style="background:${c}" aria-label="${c}"></button>`).join('')}
+            <label>🎨 لون مخصص<input type="color" value="${l.color}"></label></div></div>`).join('')}</div>
+        <button class="ghost" id="addLbl">+ تصنيف جديد</button>
+      </section>
+      <section class="card-s"><h3>🔗 الاتصال بالشيت</h3>
+        ${localMode()?`<p class="muted">التطبيق يعمل على هذا الجهاز فقط. اربطه بالشيت لحفظ تقاريرك وفتحها من أي جهاز.</p><button class="btn" id="connect">ربط بالشيت</button>`:
+        `<p class="muted sm" dir="ltr" style="word-break:break-all;text-align:left">${esc(api())}</p>
+         <p class="muted sm">بانتظار الإرسال: ${OUT.length} · ${navigator.onLine?'متصل بالإنترنت':'دون إنترنت'}${lastErr?` · آخر خطأ: ${esc(lastErr)}`:''}</p>
+         <div class="row"><button class="btn" id="syncNow">↻ مزامنة الآن</button><button class="btn light" id="logout">خروج من هذا الجهاز</button></div>`}
+      </section>
+      ${localMode()?'':`<section class="card-s"><h3>🔒 تغيير الرمز السري</h3>
+        <input class="in" id="pOld" type="password" inputmode="numeric" maxlength="8" placeholder="الرمز الحالي">
+        <input class="in" id="pNew" type="password" inputmode="numeric" maxlength="8" placeholder="الرمز الجديد (4 إلى 8 أرقام)" style="margin-top:8px">
+        <div class="row"><button class="btn" id="pSave">تغيير</button><span class="err-msg" id="pMsg"></span></div></section>`}
+      <section class="card-s"><h3>💾 نسخة احتياطية</h3>
+        <p class="muted sm">${S.reports.filter(hasContent).length} تقرير · ${S.decisions.length} قرار</p>
+        <button class="btn light" id="backup">تنزيل نسخة (JSON)</button></section>
+    </main>${navBar('s')}`;
+  setInd();
+  $$('.lbl-row').forEach(row=>{
+    const l=S.labels.find(x=>x.id===row.dataset.id);
+    const setColor=c=>{ l.color=c; $('.sw',row).style.background=c; $$('.presets [data-c]',row).forEach(b=>b.classList.toggle('sel',b.dataset.c.toLowerCase()===c.toLowerCase())); $('input[type=color]',row).value=c; saveLabels(); };
+    $('.sw',row).onclick=()=>{ const o=row.classList.contains('open'); $$('.lbl-row').forEach(x=>x.classList.remove('open')); row.classList.toggle('open',!o); };
+    $$('.presets [data-c]',row).forEach(b=>b.onclick=()=>setColor(b.dataset.c));
+    $('input[type=color]',row).oninput=e=>setColor(e.target.value);
+    $('.lbl-name',row).oninput=e=>{ l.name=e.target.value; saveLabels(); };
+    $('[data-del]',row).onclick=()=>{
+      const n=used(l.id);
+      if(!confirm(n?`التصنيف «${l.name}» مستعمل في ${n} تقرير، ستصبح بلا تصنيف. حذف؟`:`حذف التصنيف «${l.name}»؟`)) return;
+      S.labels=S.labels.filter(x=>x.id!==l.id);
+      S.reports.filter(r=>r.label===l.id).forEach(r=>{ r.label=''; r.updated_at=nowLocal(); queueReport(r); });
+      saveLabels(); viewSettings();
+    };
+  });
+  $('#addLbl').onclick=()=>{ S.labels.push({id:uid('l'), name:'تصنيف جديد', color:PRESETS[S.labels.length%PRESETS.length]}); saveLabels(); viewSettings(); const ins=$$('.lbl-name'); const last=ins[ins.length-1]; last.focus(); last.select(); };
+  $('#backup').onclick=()=>downloadBlob(new Blob([JSON.stringify(S,null,2)],{type:'application/json'}), `تقاريري-نسخة-${todayStr()}.json`);
+  if(localMode()){ $('#connect').onclick=()=>{ localStorage.removeItem(LS.mode); route(); }; return; }
+  $('#syncNow').onclick=async()=>{ flushDirty(); await sync({pull:true}); toast(lastErr?'تعذّرت المزامنة':'تمت المزامنة ✓'); viewSettings(); };
+  $('#logout').onclick=async()=>{
+    if(OUT.length && !confirm(`هناك ${OUT.length} تغييرات لم تُرسل بعد للشيت. الخروج الآن قد يضيّعها. متابعة؟`)) return;
+    try{ await call('logout'); }catch(e){}
+    localStorage.removeItem(LS.token); route();
+  };
+  $('#pSave').onclick=async()=>{
+    const msg=$('#pMsg'); msg.style.color='';
+    try{ const res=await call('changePin',{oldPin:$('#pOld').value.trim(), newPin:$('#pNew').value.trim()});
+      if(res.ok){ localStorage.setItem(LS.token,res.token); msg.style.color='var(--green)'; msg.textContent='تم تغيير الرمز ✓'; $('#pOld').value=$('#pNew').value=''; }
+      else msg.textContent = res.error==='BAD_PIN'?'الرمز الحالي خاطئ':'الرمز الجديد من 4 إلى 8 أرقام';
+    }catch(e){ msg.textContent='يتطلب اتصالاً بالإنترنت'; }
+  };
+}
+
+/* =========================================================
+   الأوراق المطبوعة: التقرير + متابعة القرارات
+   ========================================================= */
+const pillStyle = st => st==='done'?'background:#E6F4EC;color:#1E9E5A':st==='doing'?'background:#E8F0FE;color:#1A56C4':'background:#F1F2F4;color:#4B5058';
+const sec = (t,body) => `<div class="p-sec"><h2>${t}</h2>${body}</div>`;
+function paperWrap(color, head, body, foot){
+  return `<div class="paper" style="--pc:${color};--pcl:${hexA(color,.14)}">${head}<div class="p-body">${body}</div><div class="p-foot">${foot}</div></div>`;
+}
+function headHtml(color, kind, title, meta){
+  return `<div class="p-head" style="background:${color};color:${onColor(color)}"><div class="p-kind">${kind}</div><h1>${esc(title)}</h1><div class="p-meta">${meta}</div></div>`;
+}
+function decRowsTable(list, opts={}){
+  return `<table class="p-table"><thead><tr><th>#</th><th>القرار</th><th>المسؤول</th><th>الأجل</th>${opts.status?'<th>الحالة</th>':''}${opts.src?'<th>المصدر</th>':''}</tr></thead><tbody>
+    ${list.map((d,i)=>{ const x=dInfo(d);
+      const dueTxt = d.due ? fmtDue(d.due) + (opts.status && d.status!=='done' ? `<br><span style="font-size:12px;color:${x.overdue?'#D93025':'#8A8F98'}">${leftText(x.left)}</span>` : '') : '—';
+      return `<tr><td class="n">${i+1}</td><td>${esc(d.text)}</td><td>${esc(d.owner)||'<span style="color:#D93025">—</span>'}</td><td>${dueTxt}</td>
+        ${opts.status?`<td><span class="p-pill" style="${x.overdue?'background:#FDECEA;color:#D93025':pillStyle(d.status)}">${x.overdue?'متأخر':stName(d.status)}</span></td>`:''}
+        ${opts.src?`<td style="font-size:12px;color:#6B7280">${esc(titleOf(x.r))}<br>${fmtDay(x.r.date)}</td>`:''}</tr>`; }).join('')}
+  </tbody></table>`;
+}
+function paperReport(r){
+  const T=TYPES[r.type], L=label(r.label), c=lc(r.label), D=r.details;
+  const decs=reportDecs(r.id).filter(d=>(d.text||'').trim());
+  let body='';
+  T.fields.forEach(f=>{
+    const v=D[f.k];
+    if(f.t==='decisions'){ if(decs.length) body+=sec(f.l, decRowsTable(decs)); }
+    else if(f.t==='list'){ const a=(v||[]).filter(s=>String(s).trim()); if(a.length) body+=sec(f.l, `<ol class="p-list">${a.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`); }
+    else if(f.t==='people'){ const a=v||[]; if(a.length) body+=sec(`${f.l} (${a.length})`, `<div class="p-chips">${a.map(n=>`<span>${esc(n)}</span>`).join('')}</div>`); }
+    else if(String(v||'').trim()) body+=sec(f.l, `<p class="p-text">${nl2br(esc(v))}</p>`);
+  });
+  if((r.notes||'').trim()) body+=sec('ملاحظات', `<p class="p-text">${nl2br(esc(r.notes))}</p>`);
+  const meta=[`📅 ${fmtLong(r.date)} · ${r.date.slice(11,16)}`, r.entity && `👥 ${r.type==='meeting'?'مع ':''}${esc(r.entity)}`, r.place && `📍 ${esc(r.place)}`].filter(Boolean).join('&nbsp;&nbsp;&nbsp;');
+  return paperWrap(c, headHtml(c, `${T.icon} ${T.name}${L?' · '+esc(L.name):''}`, titleOf(r), meta),
+    body || '<p class="p-empty">لا يوجد محتوى بعد</p>', `<span>تقرير ${T.name}</span><span>${fmtLong(todayStr())}</span>`);
+}
+function paperDecisions(r){
+  const own=reportDecs(r.id).filter(d=>(d.text||'').trim());
+  const prev=r.entity ? prevOpen(r).map(x=>x.d) : [];
+  if(!own.length && !prev.length) return null;
+  const c=lc(r.label);
+  const st=k=>own.filter(d=> k==='late' ? dInfo(d).overdue : d.status===k).length;
+  const done=st('done'), doing=st('doing'), todo=st('todo'), late=st('late');
+  const pct=n=>own.length?(n*100/own.length):0;
+  let body='';
+  if(own.length){
+    body+=`<div class="p-stats"><div class="p-stat"><b>${own.length}</b>قرارات</div><div class="p-stat"><b style="color:#1E9E5A">${done}</b>أُنجز</div><div class="p-stat"><b style="color:#1A56C4">${doing}</b>جارٍ</div><div class="p-stat"><b>${todo}</b>قيد الانتظار</div><div class="p-stat"><b style="color:#D93025">${late}</b>متأخر</div></div>
+      <div class="p-prog"><i style="width:${pct(done)}%;background:#1E9E5A"></i><i style="width:${pct(doing)}%;background:#2F6FEB"></i></div>`;
+    body+=sec('قرارات هذه الجلسة', decRowsTable(own,{status:true}));
+  }
+  if(prev.length) body+=sec(`قرارات سابقة مفتوحة مع «${esc(r.entity)}»`, decRowsTable(prev,{status:true,src:true}));
+  return paperWrap(c, headHtml(c, '🎯 متابعة القرارات', titleOf(r), `الوضع بتاريخ ${fmtLong(todayStr())}`),
+    body, `<span>متابعة قرارات: ${esc(titleOf(r))}</span><span>صفحة 2</span>`);
+}
+const reportPages = r => [paperReport(r), paperDecisions(r)].filter(Boolean);
+function paperFollow(){
+  const items=fItems(), L=label(UIF.label), c=L?L.color:'#1F2328';
+  const groups=[
+    ['⏰ متأخرة', items.filter(x=>x.overdue)],
+    ['جارية', items.filter(x=>!x.overdue && x.d.status==='doing')],
+    ['قيد الانتظار', items.filter(x=>!x.overdue && x.d.status==='todo')],
+    ['أُنجزت خلال 30 يوماً', items.filter(x=>x.d.status==='done' && x.d.done_at && daysBetween(x.d.done_at,todayStr())<=30)]
+  ];
+  const scope=[L?L.name:'جميع التصنيفات', UIF.entity].filter(Boolean).map(esc).join(' · ');
+  let body=`<div class="p-stats">${groups.map(([n,a],i)=>`<div class="p-stat"><b style="color:${['#D93025','#1A56C4','#1F2328','#1E9E5A'][i]}">${a.length}</b>${n.replace('⏰ ','')}</div>`).join('')}</div>`;
+  groups.forEach(([n,a])=>{ if(a.length) body+=sec(`${n} (${a.length})`, decRowsTable(sortItems(a).map(x=>x.d),{status:true,src:true})); });
+  if(!items.length) body+='<p class="p-empty">لا توجد قرارات</p>';
+  return paperWrap(c, headHtml(c, '🎯 كشف متابعة القرارات', scope, `الوضع بتاريخ ${fmtLong(todayStr())}`), body, `<span>تقاريري</span><span>${fmtLong(todayStr())}</span>`);
+}
+
+/* =========================================================
+   المشاركة: صورة / PDF / طباعة
+   ========================================================= */
+function openReportShare(r){
+  const pages=reportPages(r);
+  openShare(pages, safeName(titleOf(r))+'-'+(r.date||'').slice(0,10), pages.length>1?'مشاركة التقرير + متابعة القرارات':'مشاركة التقرير');
+}
+const safeName = s => String(s).replace(/[\\/:*?"<>|]/g,'').replace(/\s+/g,'-').slice(0,60);
+function openShare(pages, base, title){
+  pages=pages.filter(Boolean);
+  const m=modal(`<h3>${esc(title)}</h3>
+    <div class="pv">${pages.map((p,i)=>`<div class="pv-page"><div class="pv-box">${p}</div>${i===0?'التقرير':'متابعة القرارات'}</div>`).join('')}</div>
+    <div class="share-grid">
+      <button data-k="png">🖼️<b>صورة</b><small>${pages.length>1?pages.length+' صور':'مثالية لواتساب'}</small></button>
+      <button data-k="pdf">📄<b>PDF</b><small>${pages.length} ${pages.length>1?'صفحتان':'صفحة'}</small></button>
+      <button data-k="print">🖨️<b>طباعة</b><small>أو حفظ PDF</small></button>
+    </div>
+    <p class="muted sm" style="text-align:center">على الهاتف تُفتح قائمة المشاركة مباشرة، وعلى الحاسوب يُنزَّل الملف.</p>`);
+  if(pages.length===1 && title.includes('التقرير')) $('.pv-page',m).lastChild.textContent='التقرير';
+  if(title.startsWith('كشف')) $$('.pv-page',m).forEach(p=>p.lastChild.textContent='الكشف');
+  $$('[data-k]',m).forEach(b=>b.onclick=async()=>{
+    const k=b.dataset.k;
+    if(k==='print'){ closeModal(m); return printPages(pages); }
+    $$('[data-k]',m).forEach(x=>x.disabled=true); const old=b.innerHTML; b.innerHTML='⏳<b>جارٍ التجهيز…</b>';
+    try{ await exportPages(pages, k, base); closeModal(m); }
+    catch(e){ if(e && e.name==='AbortError') { closeModal(m); return; } console.error(e); toast('تعذّر التصدير: '+(e.message||e)); b.innerHTML=old; $$('[data-k]',m).forEach(x=>x.disabled=false); }
+  });
+}
+let libsP=null, fontCSS=null;
+function loadScript(src){ return new Promise((ok,no)=>{ const s=document.createElement('script'); s.src=src; s.onload=ok; s.onerror=()=>no(new Error('تعذّر تحميل المكتبة')); document.head.appendChild(s); }); }
+function ensureLibs(){ return libsP || (libsP = Promise.all([loadScript('lib/html-to-image.js'), loadScript('lib/jspdf.umd.min.js')]).catch(e=>{ libsP=null; throw e; })); }
+async function renderCanvases(pages){
+  await ensureLibs();
+  const host=$('#paperHost'); host.innerHTML=pages.join('');
+  await document.fonts.ready;
+  const els=$$('.paper',host);
+  if(fontCSS===null){ try{ fontCSS=await htmlToImage.getFontEmbedCSS(els[0]); }catch(e){ fontCSS=''; } }
+  const out=[];
+  try{ for(const el of els) out.push(await htmlToImage.toCanvas(el,{pixelRatio:2, backgroundColor:'#ffffff', fontEmbedCSS:fontCSS, width:794, height:el.scrollHeight})); }
+  finally{ host.innerHTML=''; }
+  return out;
+}
+async function exportPages(pages, kind, base){
+  const canvases=await renderCanvases(pages);
+  let files=[];
+  if(kind==='png'){
+    for(let i=0;i<canvases.length;i++){
+      const blob=await new Promise(ok=>canvases[i].toBlob(ok,'image/png'));
+      files.push(new File([blob], `${base}${canvases.length>1?'-'+(i+1):''}.png`, {type:'image/png'}));
+    }
+  } else {
+    const { jsPDF } = window.jspdf;
+    const pdf=new jsPDF({unit:'mm', format:'a4', orientation:'portrait'});
+    let first=true;
+    for(const c of canvases){
+      const pageH=Math.floor(c.width*297/210);
+      for(let y=0; y<c.height; y+=pageH){
+        const h=Math.min(pageH, c.height-y);
+        if(y>0 && h<60) break;
+        const part=document.createElement('canvas'); part.width=c.width; part.height=h;
+        const ctx=part.getContext('2d'); ctx.fillStyle='#fff'; ctx.fillRect(0,0,c.width,h); ctx.drawImage(c,0,y,c.width,h,0,0,c.width,h);
+        if(!first) pdf.addPage(); first=false;
+        pdf.addImage(part.toDataURL('image/jpeg',0.92),'JPEG',0,0,210,h*210/c.width);
+      }
+    }
+    files=[new File([pdf.output('blob')], base+'.pdf', {type:'application/pdf'})];
+  }
+  if(navigator.canShare && navigator.canShare({files})) await navigator.share({files, title:base});
+  else files.forEach(f=>downloadBlob(f,f.name));
+}
+function downloadBlob(blob,name){ const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },1500); }
+function printPages(pages){
+  const h=$('#printHost'); h.innerHTML=pages.join('');
+  document.body.classList.add('printing');
+  document.fonts.ready.then(()=>setTimeout(()=>window.print(),80));
+}
+window.addEventListener('afterprint',()=>{ document.body.classList.remove('printing'); $('#printHost').innerHTML=''; });
+
+/* =========================================================
+   أحداث عامة وتشغيل
+   ========================================================= */
+window.addEventListener('online', ()=>{ setInd(); sync({pull:!isEditorOpen()}); });
+window.addEventListener('offline', setInd);
+document.addEventListener('visibilitychange', ()=>{ if(document.hidden){ flushDirty(); persist(); sync(); } else maybePull(); });
+window.addEventListener('pagehide', ()=>{ flushDirty(); persist(); });
+if('serviceWorker' in navigator && location.protocol==='https:') navigator.serviceWorker.register('sw.js').catch(()=>{});
+
+route();
+sync({pull:true});
+</script>
+</body>
+</html>
