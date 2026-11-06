@@ -11,6 +11,15 @@ const SCHEMA = {
   People:    ['name','entity','created_at'],
   Settings:  ['key','value']
 };
+// أسماء الأوراق وعناوين الأعمدة كما تظهر في الشيت (بالعربية)
+// الكود يقرأ الأعمدة بترتيبها، فلا تغيّر ترتيب الأعمدة في الشيت
+const TITLES = { Reports: 'التقارير', Decisions: 'القرارات', People: 'الأشخاص', Settings: 'الإعدادات' };
+const HEADERS = {
+  Reports:   ['المعرّف','النوع','العنوان','التصنيف','الجهة','المكان','التاريخ','تاريخ الإنشاء','آخر تعديل','مثبّت','مؤرشف','التفاصيل','ملاحظات'],
+  Decisions: ['المعرّف','معرّف التقرير','القرار','المسؤول','الأجل','الحالة','تاريخ الإنجاز','تاريخ الإنشاء','آخر تعديل'],
+  People:    ['الاسم','الجهة','تاريخ الإضافة'],
+  Settings:  ['المفتاح','القيمة']
+};
 const TOKEN_DAYS = 120;   // مدة بقاء الجهاز متصلاً
 const MAX_FAILS  = 5;     // محاولات خاطئة قبل القفل
 const LOCK_MIN   = 10;    // مدة القفل بالدقائق
@@ -63,12 +72,13 @@ function ss_() { return SS_ || (SS_ = SpreadsheetApp.openById(SHEET_ID)); }
 
 function sheet_(name) {
   const ss = ss_();
-  let sh = ss.getSheetByName(name);
+  let sh = ss.getSheetByName(TITLES[name]);
   if (!sh) {
-    sh = ss.insertSheet(name);
-    const h = SCHEMA[name];
+    sh = ss.insertSheet(TITLES[name]);
+    const h = HEADERS[name];
     sh.getRange(1, 1, 1, h.length).setValues([h]).setFontWeight('bold').setBackground('#EEF2F7');
     sh.setFrozenRows(1);
+    sh.setRightToLeft(true);
     sh.getRange(1, 1, sh.getMaxRows(), h.length).setNumberFormat('@'); // نص خام: لا تحويل للتواريخ
   }
   return sh;
