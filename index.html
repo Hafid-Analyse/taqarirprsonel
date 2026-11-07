@@ -202,6 +202,36 @@ textarea.auto{overflow:hidden;min-height:46px}
 .lst{margin:0;padding:0;list-style:none;counter-reset:n}
 .lst li{display:flex;align-items:flex-start;gap:6px;counter-increment:n;padding:2px 0}
 .lst li.new{animation:rise .3s var(--ease)}
+.dm-q{margin:2px 0 12px;color:var(--mut);font-size:14px}
+.dmode-pick{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dmode-pick button{background:linear-gradient(150deg,var(--card2),var(--card));border-radius:22px;box-shadow:var(--sh);padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;animation:rise .45s var(--ease) both}
+.dmode-pick button:nth-child(2){animation-delay:.07s}
+.dm-ic{font-size:30px;width:64px;height:64px;border-radius:21px;display:grid;place-items:center;background:var(--lcl);box-shadow:var(--sh-sm)}
+.dmode-pick b{font-size:16px}.dmode-pick small{color:var(--mut);font-size:12px;line-height:1.5}
+.dmode-sw{position:relative;display:flex;background:var(--card);border-radius:16px;padding:5px;box-shadow:var(--sh-in);margin-bottom:14px}
+.dmode-sw button{flex:1;position:relative;z-index:1;padding:9px;border-radius:12px;font-weight:700;font-size:14px;color:var(--mut);transition:color .3s}
+.dmode-sw button.on{color:var(--ink)}
+.dmode-sw i{position:absolute;top:5px;bottom:5px;width:calc(50% - 5px);left:5px;border-radius:12px;background:var(--card2);box-shadow:var(--sh-sm);transition:left .35s var(--spring)}
+.dmode-sw.right i{left:50%}
+.dm-body{animation:inFade .35s var(--ease)}
+.paper-w{position:relative;background:var(--card2);border-radius:18px;box-shadow:var(--sh-in);padding:10px 8px 18px;overflow:hidden}
+.paper-w::before{content:"";position:absolute;top:0;bottom:0;right:30px;width:2px;background:color-mix(in srgb,var(--lc) 45%,transparent)}
+.ruled{display:block;width:100%;min-height:52vh;border:0;outline:none;resize:none;overflow:hidden;background:transparent;color:var(--ink);font-size:17px;line-height:34px;padding:0 40px 0 8px;background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 33px,var(--line) 33px,var(--line) 34px);background-attachment:local}
+.ruled::placeholder{color:var(--mut);opacity:.7}
+.wc{font-size:12px;color:var(--mut);text-align:left;margin-top:6px;min-height:16px}
+.chk-prog{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:13px;font-weight:700;color:var(--mut)}
+.cp-bar{flex:1;height:8px;border-radius:5px;background:var(--soft);box-shadow:var(--sh-in);overflow:hidden}
+.cp-bar i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,var(--lc),color-mix(in srgb,var(--lc) 60%,#fff));transition:width .5s var(--spring)}
+.lst.chk li{background:linear-gradient(150deg,var(--card2),var(--card));box-shadow:var(--sh-sm);border-radius:16px;padding:3px 8px;margin-bottom:10px;align-items:center}
+.lst.chk li::before{display:none}
+.lst.chk .hdl,.lst.chk .x{margin-top:0}
+.cb{flex:none;width:26px;height:26px;border-radius:50%;border:2px solid var(--lc);position:relative;transition:background .25s,transform .3s var(--spring)}
+.cb::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:15px;font-weight:800;transform:scale(0);transition:transform .3s var(--spring)}
+.lst.chk li.done .cb{background:var(--lc)}
+.lst.chk li.done .cb::after{transform:scale(1)}
+.lst.chk li.done .li-in{text-decoration:line-through;text-decoration-color:var(--lc);color:var(--mut)}
+.lst.chk li .li-in{transition:color .3s}
+.lst.chk li.ticked{animation:pop .4s var(--spring)}
 .lst li{transition:transform .22s var(--ease);position:relative;border-radius:14px}
 .sorting .lst li{user-select:none}
 .lst li.dragging{transition:none;z-index:5;background:var(--card2);box-shadow:0 12px 28px rgba(0,0,0,.18)}
@@ -422,6 +452,12 @@ textarea.auto{overflow:hidden;min-height:46px}
 .p-foot{padding:14px 46px;font-size:12px;color:#8A8F98;border-top:1px solid #EEE;display:flex;justify-content:space-between}
 .p-empty{color:#A0A4AB;text-align:center;padding:40px}
 .p-sub{font-size:13px;color:#8A8F98;margin:-4px 0 10px}
+.p-free{font-size:16px;line-height:34px;background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 33px,#ECECF2 33px,#ECECF2 34px);padding-right:30px;border-right:2px solid var(--pcl);min-height:300px}
+.p-chk{list-style:none;margin:0;padding:0}
+.p-chk li{display:flex;align-items:center;gap:12px;font-size:15px;padding:9px 12px;border:1px solid #ECECEC;border-radius:12px;margin-bottom:8px}
+.p-chk li span{flex:none;width:20px;height:20px;border-radius:50%;border:2px solid var(--pc);display:grid;place-items:center;color:#fff;font-size:12px;font-weight:800}
+.p-chk li.ok span{background:var(--pc)}
+.p-chk li.ok{color:#8A8F98;text-decoration:line-through}
 
 @media print{
   @page{size:A4;margin:0}
@@ -485,13 +521,9 @@ const TYPES = {
       {k:'learned', l:'ما تعلمته', t:'list', one:'فكرة'},
       {k:'exercises', l:'التطبيقات', t:'list', one:'تطبيقاً'},
       {k:'apply', l:'ما سأطبقه عملياً', t:'list', one:'خطوة'} ]},
-  diary:{ name:'يوميات', icon:'📔', color:'#D97706', desc:'خلاصة يومك', noEntity:true,
-    titlePh:'عنوان اليوم (اختياري)',
-    fields:[
-      {k:'done', l:'ما أنجزت', t:'list', one:'إنجازاً'},
-      {k:'learned', l:'ما تعلمت', t:'list', one:'فكرة'},
-      {k:'concerns', l:'ما يشغلني', t:'textarea'},
-      {k:'tomorrow', l:'أولويات الغد', t:'list', one:'أولوية'} ]}
+  diary:{ name:'يوميات', icon:'📔', color:'#D97706', desc:'ورقة حرة أو قائمة تحقق', noEntity:true,
+    titlePh:'موضوع اليوم',
+    fields:[ {k:'page', l:'يومياتي', t:'diary'} ]}
 };
 const STATUS = [ {k:'todo',n:'قيد الانتظار'}, {k:'doing',n:'جارٍ'}, {k:'done',n:'أُنجز'} ];
 const stName = k => (STATUS.find(s=>s.k===k)||STATUS[0]).n;
@@ -562,7 +594,7 @@ const cleanDec = d => ({ id:d.id, report_id:d.report_id, text:d.text||'', owner:
 
 function hasContent(r){
   if((r.title||'').trim() || (r.notes||'').trim() || (r.entity||'').trim()) return true;
-  for(const k in (r.details||{})){ const v=r.details[k]; if(Array.isArray(v) ? v.some(x=>String(x).trim()) : String(v||'').trim()) return true; }
+  for(const k in (r.details||{})){ if(k==='mode') continue; const v=r.details[k]; if(Array.isArray(v) ? v.some(x=>itemText(x).trim()) : String(v||'').trim()) return true; }
   return reportDecs(r.id).length>0;
 }
 
@@ -679,12 +711,15 @@ function snippet(r){
     const v=r.details[f.k];
     if(f.t==='list' && Array.isArray(v)){ const a=v.filter(x=>String(x).trim()); if(a.length) return a.slice(0,3).join(' · '); }
     if((f.t==='textarea'||f.t==='text') && String(v||'').trim()) return String(v);
+    if(f.t==='diary'){ const D=r.details;
+      if(D.mode==='check'){ const it=(D.items||[]).filter(x=>x.t.trim()); if(it.length) return `☑️ ${it.filter(x=>x.done).length}/${it.length} · `+it.slice(0,3).map(x=>x.t).join(' · '); }
+      else if(String(D.text||'').trim()) return D.text; }
   }
   return r.notes || '';
 }
 function searchText(r){
   const parts=[r.title,r.entity,r.place,r.notes];
-  for(const k in r.details){ const v=r.details[k]; parts.push(Array.isArray(v)?v.join(' '):v); }
+  for(const k in r.details){ if(k==='mode') continue; const v=r.details[k]; parts.push(Array.isArray(v)?v.map(itemText).join(' '):v); }
   reportDecs(r.id).forEach(d=>parts.push(d.text,d.owner));
   return norm(parts.join(' '));
 }
@@ -1074,7 +1109,7 @@ function viewEditor(id){
       </div>
       <div id="prevBanner"></div>
       ${T.fields.map(f=>`<section class="fld"><h3>${f.l}</h3><div id="fb_${f.k}"></div></section>`).join('')}
-      <section class="fld"><h3>ملاحظات حرة</h3><textarea id="f_notes" class="in auto" rows="2" placeholder="أي شيء آخر…">${esc(r.notes)}</textarea></section>
+      ${r.type==='diary'?'':`<section class="fld"><h3>ملاحظات حرة</h3><textarea id="f_notes" class="in auto" rows="2" placeholder="أي شيء آخر…">${esc(r.notes)}</textarea></section>`}
     </main>
     ${datalists()}`;
   setInd();
@@ -1087,7 +1122,7 @@ function viewEditor(id){
   bind('#f_date','date');
   bind('#f_place','place');
   let entT; bind('#f_entity','entity', ()=>{ clearTimeout(entT); entT=setTimeout(()=>{ renderPrevBanner(r); T.fields.filter(f=>f.t==='people').forEach(f=>renderField(r,f)); },500); });
-  const notes=$('#f_notes'); notes.oninput=()=>{ r.notes=notes.value; grow(notes); changed(r); }; grow(notes);
+  const notes=$('#f_notes'); if(notes){ notes.oninput=()=>{ r.notes=notes.value; grow(notes); changed(r); }; grow(notes); }
   renderLabelPick(r);
   T.fields.forEach(f=>renderField(r,f));
   renderPrevBanner(r);
@@ -1115,6 +1150,82 @@ function renderField(r,f){
   } else if(f.t==='list') renderList(r,f,box);
   else if(f.t==='people') renderPeople(r,f,box);
   else if(f.t==='decisions') renderDecs(r,f,box);
+  else if(f.t==='diary') renderDiary(r,f,box);
+}
+
+/* اليوميات: ورقة حرة مسطّرة أو قائمة تحقق */
+const itemText = x => (x && typeof x==='object') ? (x.t||'') : String(x??'');
+function renderDiary(r,f,box,focus){
+  const D=r.details;
+  // ترحيل اليوميات القديمة (الخانات السابقة) إلى ورقة حرة
+  if(!D.mode){
+    const parts=[]; [['done','ما أنجزت'],['learned','ما تعلمت'],['tomorrow','أولويات الغد']].forEach(([k,n])=>{ const a=(D[k]||[]).filter(x=>String(x).trim()); if(a.length) parts.push(n+':\n- '+a.join('\n- ')); });
+    if(String(D.concerns||'').trim()) parts.push('ما يشغلني:\n'+D.concerns);
+    if(parts.length){ D.mode='free'; D.text=parts.join('\n\n'); changed(r); }
+  }
+  if(!D.mode){
+    box.innerHTML=`<p class="dm-q">كيف تريد أن تكتب يومك؟</p><div class="dmode-pick">
+      <button data-m="free"><span class="dm-ic">📄</span><b>ورقة حرة</b><small>اكتب أفكارك بحرية كما في دفتر مسطّر</small></button>
+      <button data-m="check"><span class="dm-ic">☑️</span><b>قائمة تحقق</b><small>بنود تؤشّر عليها كلما أنجزتها</small></button></div>`;
+    $$('[data-m]',box).forEach(b=>b.onclick=()=>{ D.mode=b.dataset.m; changed(r); renderDiary(r,f,box, D.mode==='free'?'paper':'add'); });
+    return;
+  }
+  box.innerHTML=`<div class="dmode-sw">
+      <button data-m="free" class="${D.mode==='free'?'on':''}">📄 ورقة حرة</button>
+      <button data-m="check" class="${D.mode==='check'?'on':''}">☑️ قائمة تحقق</button><i></i></div>
+    <div class="dm-body"></div>`;
+  box.querySelector('.dmode-sw').classList.toggle('right', D.mode==='free');
+  $$('.dmode-sw [data-m]',box).forEach(b=>b.onclick=()=>{ if(D.mode===b.dataset.m) return; D.mode=b.dataset.m; changed(r); renderDiary(r,f,box); });
+  const body=$('.dm-body',box);
+  if(D.mode==='free'){
+    body.innerHTML=`<div class="paper-w"><textarea class="ruled" placeholder="اكتب هنا ما في خاطرك…">${esc(D.text||'')}</textarea></div><div class="wc"></div>`;
+    const ta=$('.ruled',body), wc=$('.wc',body);
+    const count=()=>{ const n=(ta.value.trim().match(/\S+/g)||[]).length; wc.textContent = n ? `${n} كلمة` : ''; };
+    ta.oninput=()=>{ D.text=ta.value; grow(ta); count(); changed(r); };
+    grow(ta); count();
+    if(focus==='paper') ta.focus();
+    return;
+  }
+  // قائمة التحقق
+  const items = Array.isArray(D.items) ? D.items : (D.items=[]);
+  const done=items.filter(x=>x.done).length, pct=items.length?Math.round(done*100/items.length):0;
+  body.innerHTML=`${items.length?`<div class="chk-prog"><div class="cp-bar"><i style="width:${pct}%"></i></div><span>أُنجز ${done} من ${items.length}${pct===100?' 🎉':''}</span></div>`:''}
+    <ol class="lst chk">${items.map((it,i)=>`<li data-i="${i}" class="${it.done?'done':''}"><span class="hdl" data-h="${i}" aria-label="اسحب لإعادة الترتيب">⋮⋮</span>
+      <button class="cb" data-cb="${i}" aria-label="تم"></button><textarea class="li-in" rows="1" data-i="${i}">${esc(it.t)}</textarea><button class="x" data-del="${i}" tabindex="-1" aria-label="حذف">×</button></li>`).join('')}</ol>
+    <div class="add-row"><button class="plus" data-plus aria-label="إضافة">+</button><textarea class="add-in" rows="1" placeholder="أضف مهمة… (Enter للإضافة)"></textarea></div>`;
+  const rerender=fo=>renderDiary(r,f,box,fo);
+  $$('.li-in',body).forEach(ta=>{
+    grow(ta); const i=+ta.dataset.i;
+    ta.oninput=()=>{
+      if(ta.value.includes('\n')){ const parts=ta.value.split('\n'); items.splice(i,1,{t:parts[0],done:items[i].done},...parts.slice(1).map(t=>({t,done:false}))); changed(r); return rerender(i+parts.length-1); }
+      items[i].t=ta.value; grow(ta); changed(r);
+    };
+    ta.onkeydown=e=>{
+      if(e.key==='Enter' && !e.shiftKey && !e.isComposing){ e.preventDefault(); items.splice(i+1,0,{t:'',done:false}); changed(r); rerender(i+1); }
+      else if(e.key==='Backspace' && ta.value===''){ e.preventDefault(); items.splice(i,1); changed(r); rerender(i>0?i-1:'add'); }
+    };
+  });
+  $$('[data-cb]',body).forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.cb; items[i].done=!items[i].done; changed(r);
+    const li=b.closest('li'); li.classList.toggle('done',items[i].done); li.classList.remove('ticked'); void li.offsetWidth; if(items[i].done) li.classList.add('ticked');
+    if(navigator.vibrate && items[i].done) navigator.vibrate(10);
+    const d=items.filter(x=>x.done).length, p=Math.round(d*100/items.length), bar=$('.cp-bar i',body), lab=$('.chk-prog span',body);
+    if(bar) bar.style.width=p+'%'; if(lab) lab.textContent=`أُنجز ${d} من ${items.length}${p===100?' 🎉':''}`;
+    if(p===100) toast('أحسنت! أنجزت كل المهام 🎉');
+  });
+  $$('[data-del]',body).forEach(b=>b.onclick=()=>{ items.splice(+b.dataset.del,1); changed(r); rerender(); });
+  $$('.hdl',body).forEach(h=>bindReorder(h, body, items, (from,to)=>{ const [it]=items.splice(from,1); items.splice(to,0,it); changed(r); rerender(); const li=$$('.lst li',body)[to]; li && li.classList.add('dropped'); }));
+  const add=$('.add-in',body); let bound=-1;
+  const commit=keep=>{ const lines=add.value.split('\n').map(s=>s.trim()).filter(Boolean); add.value='';
+    if(bound>=0){ items.splice(bound,1,...lines.map(t=>({t,done:false}))); bound=-1; } else { if(!lines.length) return; items.push(...lines.map(t=>({t,done:false}))); }
+    changed(r); rerender(keep?'add':undefined); };
+  add.onkeydown=e=>{ if(e.key==='Enter' && !e.shiftKey && !e.isComposing){ e.preventDefault(); commit(true); } };
+  add.oninput=()=>{ if(add.value.includes('\n')) return commit(true); grow(add);
+    if(bound>=0){ if(add.value.trim()) items[bound].t=add.value.trim(); else { items.splice(bound,1); bound=-1; } changed(r); } };
+  add.onblur=()=>{ const v=add.value.trim(); if(v && bound<0){ items.push({t:v,done:false}); bound=items.length-1; changed(r); } };
+  $('[data-plus]',body).onclick=()=>{ if(add.value.trim()) commit(true); else add.focus(); };
+  if(focus==='add'){ add.focus(); const li=$$('.lst li',body); li.length && li[li.length-1].classList.add('new'); }
+  else if(typeof focus==='number'){ const t=$(`.li-in[data-i="${focus}"]`,body); if(t){ t.closest('li').classList.add('new'); t.focus(); } }
 }
 
 /* قائمة بنود: Enter = بند جديد، مسح بند فارغ = حذفه */
@@ -1611,6 +1722,11 @@ function paperReport(r){
   T.fields.forEach(f=>{
     const v=D[f.k];
     if(f.t==='decisions'){ if(decs.length) body+=sec(f.l, decRowsTable(decs)); }
+    else if(f.t==='diary'){
+      if(D.mode==='check'){ const it=(D.items||[]).filter(x=>x.t.trim());
+        if(it.length) body+=sec(`قائمة اليوم (${it.filter(x=>x.done).length}/${it.length})`, `<ul class="p-chk">${it.map(x=>`<li class="${x.done?'ok':''}"><span>${x.done?'✓':''}</span>${esc(x.t)}</li>`).join('')}</ul>`); }
+      else if(String(D.text||'').trim()) body+=`<div class="p-free">${nl2br(esc(D.text))}</div>`;
+    }
     else if(f.t==='list'){ const a=(v||[]).filter(s=>String(s).trim()); if(a.length) body+=sec(f.l, `<ol class="p-list">${a.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`); }
     else if(f.t==='people'){ const a=v||[]; if(a.length) body+=sec(`${f.l} (${a.length})`, `<div class="p-chips">${a.map(n=>`<span>${esc(n)}</span>`).join('')}</div>`); }
     else if(String(v||'').trim()) body+=sec(f.l, `<p class="p-text">${nl2br(esc(v))}</p>`);

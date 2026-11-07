@@ -1,5 +1,5 @@
 // تقاريري — Service Worker: يجعل التطبيق يفتح ويعمل دون إنترنت
-const V = 'taqarir-v5';
+const V = 'taqarir-v6';
 const SHELL = [
   './', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './logo.svg',
   './lib/html-to-image.js', './lib/jspdf.umd.min.js',
