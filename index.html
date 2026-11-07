@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#E6E7F2">
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icon-192.png">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="alternate icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <title>تقاريري</title>
 <script>
@@ -89,7 +90,8 @@ a{color:inherit;text-decoration:none}
 .hero>*{position:relative;z-index:1}
 .hero-top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .hbtn{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;font-size:19px;background:rgba(255,255,255,.1);color:#fff;backdrop-filter:blur(6px)}
-.hero-ava{margin:0 auto;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:22px;background:rgba(255,255,255,.14);box-shadow:0 6px 18px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.25)}
+.hero-ava img,.login .logo img{width:100%;height:100%;display:block}
+.hero-ava{margin:0 auto;width:48px;height:48px;border-radius:15px;overflow:hidden;display:grid;place-items:center;background:rgba(255,255,255,.14);box-shadow:0 6px 18px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.25)}
 .hero .ind{background:rgba(255,255,255,.12);color:#fff}
 .hero-search{position:relative}
 .hero-search input{width:100%;border:0;border-radius:16px;padding:13px 44px 13px 16px;background:rgba(255,255,255,.1);color:#fff;outline:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),inset 0 -1px 0 rgba(0,0,0,.2);transition:background .2s}
@@ -385,7 +387,7 @@ textarea.auto{overflow:hidden;min-height:46px}
 .install-card .x{color:#fff;position:relative}
 .ios-steps{line-height:2.1;padding-inline-start:22px;margin:0}
 .login{max-width:420px;margin:0 auto;padding:60px 22px;animation:inFade .5s var(--ease)}
-.login .logo{font-size:44px;width:96px;height:96px;margin:0 auto;border-radius:30px;display:grid;place-items:center;background:linear-gradient(145deg,var(--acc2),var(--acc));box-shadow:0 14px 30px color-mix(in srgb,var(--acc) 45%,transparent)}
+.login .logo{width:104px;height:104px;margin:0 auto;border-radius:32px;overflow:hidden;display:grid;place-items:center;box-shadow:0 14px 30px color-mix(in srgb,var(--acc) 45%,transparent)}
 .login h1{text-align:center;margin:16px 0 2px}
 .login p.c{text-align:center;color:var(--mut);margin:0 0 26px}
 .login .btn{width:100%;margin-top:16px;padding:14px}
@@ -898,7 +900,7 @@ document.addEventListener('click', e=>{
    ========================================================= */
 function viewLogin(){
   app.innerHTML=`<div class="login">
-    <div class="logo">📝</div><h1>تقاريري</h1><p class="c">جلسات · ندوات · تكوينات · يوميات</p>
+    <div class="logo"><img src="logo.svg" alt="تقاريري"></div><h1>تقاريري</h1><p class="c">جلسات · ندوات · تكوينات · يوميات</p>
     <label class="fl">رابط الخادم (Apps Script)</label>
     <input class="in" id="lg_api" dir="ltr" placeholder="https://script.google.com/macros/s/…/exec" value="${esc(api())}">
     <label class="fl">الرمز السري</label>
@@ -952,7 +954,7 @@ function viewHome(){
       <div class="hero-top">
         <button class="hbtn" onclick="go('#/s')" aria-label="الإعدادات">☰</button>
         <button class="hbtn" id="modeBtn" aria-label="الوضع الليلي">${isDark()?'☀️':'🌙'}</button>
-        <div class="hero-ava">📝</div>
+        <div class="hero-ava"><img src="logo.svg" alt="تقاريري"></div>
         <button class="hbtn ${HC.open?'on':''}" id="hcBtn" aria-label="الملخص" title="إظهار/إخفاء الملخص">📊</button>
         <span id="ind" class="ind"></span>
       </div>
