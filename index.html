@@ -297,11 +297,17 @@ textarea.auto{overflow:hidden;min-height:46px}
 .menu-list button{display:flex;width:100%;gap:12px;padding:15px 12px;border-radius:14px;font-weight:700;text-align:start}
 .menu-list button:hover{background:var(--soft)}
 .menu-list .danger{color:var(--red)}
-.pv{display:flex;gap:14px;overflow-x:auto;padding:6px 2px 14px;justify-content:center}
+.pv{display:flex;gap:16px;overflow-x:auto;padding:10px 4px 14px;justify-content:safe center}
 .pv-page{flex:none;text-align:center;font-size:12px;color:var(--mut);animation:rise .45s var(--ease) both}
+.pv-page{position:relative;display:flex;flex-direction:column;align-items:center;gap:0;font-weight:700}
+.pv-page.pick .pv-box{transition:transform .3s var(--spring),box-shadow .3s,opacity .3s;opacity:.45;transform:scale(.94)}
+.pv-page.pick.on .pv-box{opacity:1;transform:none;box-shadow:0 0 0 3px var(--acc),0 8px 24px rgba(0,0,0,.18)}
+.pv-chk{position:absolute;top:8px;left:8px;z-index:2;width:28px;height:28px;border-radius:50%;background:var(--card);color:transparent;box-shadow:var(--sh-sm);display:grid;place-items:center;font-weight:800;transition:.3s var(--spring);border:2px solid var(--line)}
+.pv-page.on .pv-chk{background:var(--acc);color:#fff;border-color:var(--acc);transform:scale(1.08)}
+.pv-page.pick.on .pv-name{color:var(--acc)}
 .pv-page:nth-child(2){animation-delay:.08s}
-.pv-box{width:222px;height:314px;overflow:hidden;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.18);margin-bottom:8px;position:relative;background:#fff}
-.pv-box .paper{position:absolute;top:0;right:0;transform:scale(.2796);transform-origin:top right;pointer-events:none}
+.pv-box{width:min(158px,38vw);aspect-ratio:210/297;height:auto;overflow:hidden;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.18);margin-bottom:8px;position:relative;background:#fff}
+.pv-box .paper{position:absolute;top:0;right:0;transform:scale(var(--pvs,.199));transform-origin:top right;pointer-events:none}
 .share-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:8px 0}
 .share-grid button{background:var(--card);border-radius:18px;padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:26px;box-shadow:var(--sh-sm)}
 .share-grid b{font-size:15px}.share-grid small{font-size:11px;color:var(--mut)}
@@ -1839,22 +1845,40 @@ function openReportShare(r){
 const safeName = s => String(s).replace(/[\\/:*?"<>|]/g,'').replace(/\s+/g,'-').slice(0,60);
 function openShare(pages, base, title){
   pages=pages.filter(Boolean);
+  const multi = pages.length>1;
+  const names = title.startsWith('كشف') ? ['الكشف'] : ['التقرير','متابعة القرارات'];
+  const sel = pages.map(()=>true);
   const m=modal(`<h3>${esc(title)}</h3>
-    <div class="pv">${pages.map((p,i)=>`<div class="pv-page"><div class="pv-box">${p}</div>${i===0?'التقرير':'متابعة القرارات'}</div>`).join('')}</div>
+    ${multi?`<p class="muted sm" style="margin:-8px 0 10px">اختر ما تريد مشاركته أو تنزيله:</p>`:''}
+    <div class="pv">${pages.map((p,i)=>`<button type="button" class="pv-page ${multi?'pick on':''}" data-p="${i}">
+      <div class="pv-box">${p}</div>${multi?'<span class="pv-chk">✓</span>':''}<span class="pv-name">${names[i]||('صفحة '+(i+1))}</span></button>`).join('')}</div>
     <div class="share-grid">
-      <button data-k="png">🖼️<b>صورة</b><small>${pages.length>1?pages.length+' صور':'مثالية لواتساب'}</small></button>
-      <button data-k="pdf">📄<b>PDF</b><small>${pages.length} ${pages.length>1?'صفحتان':'صفحة'}</small></button>
+      <button data-k="png">🖼️<b>صورة</b><small data-c="png"></small></button>
+      <button data-k="pdf">📄<b>PDF</b><small data-c="pdf"></small></button>
       <button data-k="print">🖨️<b>طباعة</b><small>أو حفظ PDF</small></button>
     </div>
     <p class="muted sm" style="text-align:center">على الهاتف تُفتح قائمة المشاركة مباشرة، وعلى الحاسوب يُنزَّل الملف.</p>`);
-  if(pages.length===1 && title.includes('التقرير')) $('.pv-page',m).lastChild.textContent='التقرير';
-  if(title.startsWith('كشف')) $$('.pv-page',m).forEach(p=>p.lastChild.textContent='الكشف');
+  const chosen = () => pages.filter((_,i)=>sel[i]);
+  const refresh = () => {
+    const n=chosen().length;
+    $('[data-c=png]',m).textContent = n>1 ? `${n} صور` : 'مثالية لواتساب';
+    $('[data-c=pdf]',m).textContent = n>1 ? 'صفحتان' : 'صفحة واحدة';
+    $$('[data-k]',m).forEach(b=>b.disabled = n===0);
+  };
+  if(multi) $$('.pv-page',m).forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.p;
+    if(sel[i] && sel.filter(Boolean).length===1) return toast('اختر صفحة واحدة على الأقل');
+    sel[i]=!sel[i]; b.classList.toggle('on',sel[i]); refresh();
+  });
+  refresh();
+  requestAnimationFrame(()=>$$('.pv-box',m).forEach(x=>x.style.setProperty('--pvs', x.clientWidth/794)));
   $$('[data-k]',m).forEach(b=>b.onclick=async()=>{
-    const k=b.dataset.k;
-    if(k==='print'){ return closeModal(m, { then:()=>printPages(pages) }); }
+    const k=b.dataset.k, ps=chosen();
+    const name = multi && ps.length===1 ? base + (sel[0] ? '' : '-متابعة') : base;
+    if(k==='print'){ return closeModal(m, { then:()=>printPages(ps) }); }
     $$('[data-k]',m).forEach(x=>x.disabled=true); const old=b.innerHTML; b.innerHTML='⏳<b>جارٍ التجهيز…</b>';
-    try{ await exportPages(pages, k, base); closeModal(m); }
-    catch(e){ if(e && e.name==='AbortError') { closeModal(m); return; } console.error(e); toast('تعذّر التصدير: '+(e.message||e)); b.innerHTML=old; $$('[data-k]',m).forEach(x=>x.disabled=false); }
+    try{ await exportPages(ps, k, name); closeModal(m); }
+    catch(e){ if(e && e.name==='AbortError') { closeModal(m); return; } console.error(e); toast('تعذّر التصدير: '+(e.message||e)); b.innerHTML=old; refresh(); }
   });
 }
 let libsP=null, fontCSS=null;
