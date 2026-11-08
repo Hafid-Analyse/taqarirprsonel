@@ -259,6 +259,11 @@ textarea.auto{overflow:hidden;min-height:46px}
 .ghost:hover{border-color:var(--lc,var(--acc));color:var(--lc,var(--acc))}
 .ghost.sm{width:auto;font-size:13px;padding:7px 12px}
 .dec{display:flex;gap:10px;padding:12px 0;border-bottom:1px solid var(--line);animation:rise .35s var(--ease)}
+.dec-side{flex:none;display:flex;flex-direction:column;align-items:center;gap:4px}
+.dec{transition:transform .22s var(--ease);position:relative;border-radius:16px}
+.dec.dragging{transition:none;z-index:5;background:var(--card2);box-shadow:0 12px 28px rgba(0,0,0,.18)}
+.dec.dropped{animation:pop .35s var(--spring)}
+.dec .hdl{margin-top:2px}
 .dec-n{flex:none;width:30px;height:30px;border-radius:10px;background:linear-gradient(145deg,var(--lc),color-mix(in srgb,var(--lc) 70%,#000));color:#fff;display:grid;place-items:center;font-weight:800;margin-top:6px;box-shadow:0 4px 10px color-mix(in srgb,var(--lc) 40%,transparent)}
 .dec-main{flex:1;min-width:0}
 .dec-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px;align-items:center}
@@ -591,7 +596,12 @@ const localMode = () => localStorage.getItem(LS.mode) === 'local';
 const label = id => S.labels.find(l=>l.id===id);
 const lc = id => (label(id)||{}).color || '#8A8F98';
 const reportById = id => S.reports.find(r=>r.id===id);
-const reportDecs = id => S.decisions.filter(d=>d.report_id===id).sort((a,b)=>a.id<b.id?-1:1);
+// ترتيب القرارات: يُحفظ داخل التقرير (details.decOrder)، وإلا فبترتيب الإنشاء
+const reportDecs = id => {
+  const r=S.reports.find(x=>x.id===id), ord=(r && r.details && r.details.decOrder) || [];
+  const pos = d => { const i=ord.indexOf(d.id); return i<0 ? 1e6 : i; };
+  return S.decisions.filter(d=>d.report_id===id).sort((a,b)=> pos(a)-pos(b) || (a.id<b.id?-1:1));
+};
 const cleanReport = r => { const o={}; for(const k in r) if(k[0]!=='_') o[k]=r[k]; return o; };
 const cleanDec = d => ({ id:d.id, report_id:d.report_id, text:d.text||'', owner:d.owner||'', due:d.due||'', status:d.status||'todo', done_at:d.done_at||'', created_at:d.created_at||'', updated_at:d.updated_at||'' });
 
@@ -1274,11 +1284,11 @@ function renderList(r,f,box,focus){
 }
 
 /* إعادة الترتيب: امسك المقبض ⋮⋮ واسحب البند للأعلى أو للأسفل */
-function bindReorder(handle, box, arr, done){
+function bindReorder(handle, box, arr, done, sel='.lst li'){
   handle.addEventListener('pointerdown', e=>{
     if(arr.length<2) return;
     e.preventDefault();
-    const lis=$$('.lst li',box), li=handle.closest('li'), from=+li.dataset.i;
+    const lis=$$(sel,box), li=handle.closest(sel.split(' ').pop()), from=+li.dataset.i;
     const rects=lis.map(x=>x.getBoundingClientRect()), h=rects[from].height+0;
     const y0=e.clientY; let to=from;
     handle.setPointerCapture(e.pointerId);
@@ -1351,8 +1361,8 @@ function refreshDatalists(){ const d=document.createElement('div'); d.innerHTML=
 /* القرارات داخل الجلسة */
 function renderDecs(r,f,box,focusLast){
   const decs=reportDecs(r.id);
-  box.innerHTML = decs.map((d,i)=>`<div class="dec" data-id="${d.id}">
-      <div class="dec-n">${i+1}</div>
+  box.innerHTML = decs.map((d,i)=>`<div class="dec" data-id="${d.id}" data-i="${i}">
+      <div class="dec-side"><div class="dec-n">${i+1}</div><span class="hdl" aria-label="اسحب لإعادة الترتيب">⋮⋮</span></div>
       <div class="dec-main">
         <textarea class="in auto d-text" rows="1" placeholder="نص القرار…">${esc(d.text)}</textarea>
         <div class="dec-row">
@@ -1362,6 +1372,11 @@ function renderDecs(r,f,box,focusLast){
           <button class="x" data-del aria-label="حذف القرار">×</button>
         </div>
       </div></div>`).join('') + `<button class="ghost" data-add>+ إضافة قرار</button>`;
+  $$('.dec .hdl',box).forEach(h=>bindReorder(h, box, decs, (from,to)=>{
+    const ids=decs.map(d=>d.id); const [m]=ids.splice(from,1); ids.splice(to,0,m);
+    r.details.decOrder=ids; changed(r); renderDecs(r,f,box);
+    const el=$$('.dec',box)[to]; el && el.classList.add('dropped');
+  }, '.dec'));
   $$('.dec',box).forEach(el=>{
     const d=S.decisions.find(x=>x.id===el.dataset.id);
     const t=$('.d-text',el); grow(t);
@@ -1372,6 +1387,7 @@ function renderDecs(r,f,box,focusLast){
     $('[data-del]',el).onclick=()=>{ if(d.text.trim() && !confirm('حذف هذا القرار؟')) return; S.decisions=S.decisions.filter(x=>x.id!==d.id); changed(r); renderDecs(r,f,box); };
   });
   $('[data-add]',box).onclick=()=>{
+    if(Array.isArray(r.details.decOrder)) r.details.decOrder=reportDecs(r.id).map(d=>d.id);
     S.decisions.push({ id:uid('d'), report_id:r.id, text:'', owner:'', due:'', status:'todo', done_at:'', created_at:nowLocal(), updated_at:nowLocal() });
     changed(r); renderDecs(r,f,box,true);
   };
