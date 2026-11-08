@@ -434,38 +434,76 @@ textarea.auto{overflow:hidden;min-height:46px}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 
 /* ===== الورقة المطبوعة / المصدّرة ===== */
+@font-face{font-family:'IBM Plex Sans Arabic';font-weight:400;font-display:swap;src:url(fonts/ibm-plex-sans-arabic-arabic-400-normal.woff2) format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FEFC}
+@font-face{font-family:'IBM Plex Sans Arabic';font-weight:500;font-display:swap;src:url(fonts/ibm-plex-sans-arabic-arabic-500-normal.woff2) format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FEFC}
+@font-face{font-family:'IBM Plex Sans Arabic';font-weight:700;font-display:swap;src:url(fonts/ibm-plex-sans-arabic-arabic-700-normal.woff2) format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FEFC}
+@font-face{font-family:'IBM Plex Sans Arabic';font-weight:400;font-display:swap;src:url(fonts/ibm-plex-sans-arabic-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2122,U+2212}
+@font-face{font-family:'IBM Plex Sans Arabic';font-weight:500;font-display:swap;src:url(fonts/ibm-plex-sans-arabic-latin-500-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2122,U+2212}
+@font-face{font-family:'IBM Plex Sans Arabic';font-weight:700;font-display:swap;src:url(fonts/ibm-plex-sans-arabic-latin-700-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2122,U+2212}
+@font-face{font-family:'Reem Kufi';font-weight:500;font-display:swap;src:url(fonts/reem-kufi-arabic-500-normal.woff2) format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FEFC}
+@font-face{font-family:'Reem Kufi';font-weight:700;font-display:swap;src:url(fonts/reem-kufi-arabic-700-normal.woff2) format('woff2');unicode-range:U+0600-06FF,U+0750-077F,U+0870-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FEFC}
+@font-face{font-family:'Reem Kufi';font-weight:500;font-display:swap;src:url(fonts/reem-kufi-latin-500-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2122,U+2212}
+@font-face{font-family:'Reem Kufi';font-weight:700;font-display:swap;src:url(fonts/reem-kufi-latin-700-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2122,U+2212}
 #paperHost{position:fixed;top:0;left:-10000px;width:794px}
 #printHost{display:none}
-.paper{width:794px;min-height:1123px;background:#fff;color:#1F2328;font-family:Tajawal,sans-serif;direction:rtl;display:flex;flex-direction:column;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.p-head{padding:34px 46px 28px}
-.p-kind{font-size:14px;font-weight:700;opacity:.92}
-.p-head h1{font-size:29px;margin:8px 0 10px;font-weight:800;line-height:1.4}
-.p-meta{font-size:14px;opacity:.95;line-height:1.7}
-.p-body{padding:26px 46px 20px;flex:1}
-.p-sec{margin:0 0 22px;break-inside:avoid}
-.p-sec h2{font-size:16px;font-weight:800;color:var(--pc);border-bottom:2px solid var(--pcl);padding-bottom:6px;margin:0 0 10px}
-.p-list{margin:0;padding-inline-start:22px;font-size:15px;line-height:1.85}
-.p-chips span{display:inline-block;background:#F2F3F5;border-radius:20px;padding:3px 12px;margin:0 0 6px 6px;font-size:14px}
-.p-text{font-size:15px;line-height:1.85;margin:0}
-.p-table{width:100%;border-collapse:collapse;font-size:14px}
-.p-table th{background:var(--pcl);text-align:right;padding:8px 10px;font-weight:800;font-size:13px}
-.p-table td{padding:9px 10px;border-bottom:1px solid #ECECEC;vertical-align:top;line-height:1.6}
-.p-table td.n{width:30px;color:#8A8F98;font-weight:700}
-.p-pill{display:inline-block;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:700;white-space:nowrap}
+.paper{--pf:'IBM Plex Sans Arabic',Tajawal,sans-serif;--hf:'Reem Kufi','IBM Plex Sans Arabic',sans-serif;width:794px;min-height:1123px;background:#fff;color:#1E2033;font-family:var(--pf);direction:rtl;display:flex;flex-direction:column;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.p-head{padding:38px 52px 6px}
+.p-top{display:flex;align-items:center;gap:10px;margin-bottom:28px}
+.p-top img{width:30px;height:30px;border-radius:9px}
+.p-top b{font-family:var(--hf);font-size:17px;font-weight:700;color:#2B2D55}
+.p-kind{margin-inline-start:auto;font-size:13px;font-weight:500;color:#5E627C;background:#F4F5F9;padding:5px 13px;border-radius:20px}
+.p-tag{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--pc);background:var(--pcl);padding:5px 12px;border-radius:20px}
+.p-tag i{width:8px;height:8px;border-radius:50%;background:var(--pc)}
+.p-head h1{font-family:var(--hf);font-size:34px;font-weight:700;line-height:1.4;margin:0 0 12px;color:#1E2033}
+.p-accent{display:block;width:58px;height:5px;border-radius:3px;background:var(--pc);margin:0 0 16px}
+.p-meta{display:flex;flex-wrap:wrap;gap:6px 22px;font-size:15px;color:#5E627C;line-height:1.7}
+.p-body{padding:26px 52px 24px;flex:1}
+.p-sec{margin:0 0 26px;break-inside:avoid}
+.p-sec h2{font-family:var(--hf);font-size:19px;font-weight:700;color:#1E2033;margin:0 0 12px;display:flex;align-items:center;gap:10px}
+.p-sec h2::before{content:"";flex:none;width:9px;height:9px;border-radius:2px;background:var(--pc);transform:rotate(45deg)}
+.p-sec h2::after{content:"";flex:1;height:1px;background:#ECEDF3}
+.p-list{margin:0;padding:0;list-style:none;counter-reset:pl;font-size:16.5px;line-height:1.95}
+.p-list li{counter-increment:pl;display:flex;gap:12px;align-items:flex-start;margin-bottom:4px}
+.p-list li::before{content:counter(pl);flex:none;width:26px;height:26px;margin-top:5px;border-radius:8px;background:var(--pcl);color:var(--pc);font-weight:700;font-size:14px;line-height:26px;text-align:center}
+.m .p-list li::before{margin-top:7px}
+.p-chips span{display:inline-block;background:#F4F5F9;border-radius:20px;padding:4px 14px;margin:0 0 7px 7px;font-size:15px}
+.p-text{font-size:16.5px;line-height:1.95;margin:0}
+.p-table{width:100%;border-collapse:collapse;font-size:15px}
+.p-table th{background:#F6F7FA;color:#5E627C;text-align:right;padding:9px 10px;font-weight:700;font-size:13px}
+.p-table th:first-child{border-radius:0 10px 10px 0}.p-table th:last-child{border-radius:10px 0 0 10px}
+.p-table td{padding:11px 10px;border-bottom:1px solid #EEF0F4;vertical-align:top;line-height:1.65}
+.p-table td.n{width:30px;color:var(--pc);font-weight:700}
+.p-pill{display:inline-block;padding:3px 11px;border-radius:12px;font-size:12.5px;font-weight:700;white-space:nowrap}
 .p-stats{display:flex;gap:10px;margin-bottom:16px}
-.p-stat{flex:1;border:1px solid #ECECEC;border-radius:12px;padding:10px 6px;text-align:center;font-size:13px;color:#6B7280}
-.p-stat b{display:block;font-size:26px;color:#1F2328}
-.p-prog{height:10px;background:#EEE;border-radius:6px;overflow:hidden;margin:0 0 24px;display:flex}
+.p-stat{flex:1;background:#F8F9FB;border-radius:14px;padding:12px 6px;text-align:center;font-size:13px;color:#6B6F8A}
+.p-stat b{display:block;font-family:var(--hf);font-size:28px;color:#1E2033}
+.p-prog{height:9px;background:#EEF0F4;border-radius:6px;overflow:hidden;margin:0 0 26px;display:flex}
 .p-prog i{display:block;height:100%}
-.p-foot{padding:14px 46px;font-size:12px;color:#8A8F98;border-top:1px solid #EEE;display:flex;justify-content:space-between}
+.p-foot{padding:16px 52px;font-size:12px;color:#9497AE;border-top:1px solid #EEF0F4;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.p-fl{display:inline-flex;align-items:center;gap:6px;font-family:var(--hf);font-weight:700;color:#2B2D55}
+.p-fl img{width:18px;height:18px;border-radius:5px}
 .p-empty{color:#A0A4AB;text-align:center;padding:40px}
 .p-sub{font-size:13px;color:#8A8F98;margin:-4px 0 10px}
-.p-free{font-size:16px;line-height:34px;background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 33px,#ECECF2 33px,#ECECF2 34px);padding-right:30px;border-right:2px solid var(--pcl);min-height:300px}
+.p-free{font-size:17px;line-height:36px;background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 35px,#EEEFF5 35px,#EEEFF5 36px);padding-right:30px;border-right:2px solid var(--pcl);min-height:300px}
 .p-chk{list-style:none;margin:0;padding:0}
-.p-chk li{display:flex;align-items:center;gap:12px;font-size:15px;padding:9px 12px;border:1px solid #ECECEC;border-radius:12px;margin-bottom:8px}
-.p-chk li span{flex:none;width:20px;height:20px;border-radius:50%;border:2px solid var(--pc);display:grid;place-items:center;color:#fff;font-size:12px;font-weight:800}
+.p-chk li{display:flex;align-items:center;gap:12px;font-size:16.5px;padding:11px 14px;background:#F8F9FB;border-radius:14px;margin-bottom:9px}
+.p-chk li span{flex:none;width:22px;height:22px;border-radius:50%;border:2px solid var(--pc);display:grid;place-items:center;color:#fff;font-size:12px;font-weight:800}
 .p-chk li.ok span{background:var(--pc)}
-.p-chk li.ok{color:#8A8F98;text-decoration:line-through}
+.p-chk li.ok{color:#9497AE;text-decoration:line-through}
+/* نسخة الصورة: عرض الهاتف، فيُقرأ النص دون تكبير */
+.paper.m{width:560px;min-height:0}
+.m .p-head{padding:30px 30px 4px}.m .p-top{margin-bottom:22px}
+.m .p-head h1{font-size:30px}
+.m .p-meta{font-size:16px;flex-direction:column;gap:2px}
+.m .p-body{padding:22px 30px 20px}
+.m .p-sec h2{font-size:20px}
+.m .p-list,.m .p-text{font-size:18.5px;line-height:1.9}
+.m .p-chips span{font-size:16.5px}
+.m .p-table{font-size:15.5px}.m .p-table th{font-size:13px;padding:8px 7px}.m .p-table td{padding:10px 7px}
+.m .p-stats{flex-wrap:wrap}.m .p-stat{flex:1 1 28%}
+.m .p-free{font-size:18.5px;line-height:38px;background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 37px,#EEEFF5 37px,#EEEFF5 38px)}
+.m .p-chk li{font-size:18px}
+.m .p-foot{padding:14px 30px}
 
 @media print{
   @page{size:A4;margin:0}
@@ -1720,10 +1758,12 @@ function viewSettings(){
 const pillStyle = st => st==='done'?'background:#E6F4EC;color:#1E9E5A':st==='doing'?'background:#E8F0FE;color:#1A56C4':'background:#F1F2F4;color:#4B5058';
 const sec = (t,body) => `<div class="p-sec"><h2>${t}</h2>${body}</div>`;
 function paperWrap(color, head, body, foot){
-  return `<div class="paper" style="--pc:${color};--pcl:${hexA(color,.14)}">${head}<div class="p-body">${body}</div><div class="p-foot">${foot}</div></div>`;
+  return `<div class="paper" style="--pc:${color};--pcl:${hexA(color,.12)}">${head}<div class="p-body">${body}</div><div class="p-foot"><span class="p-fl"><img src="logo.svg" alt="">تقاريري</span>${foot}</div></div>`;
 }
-function headHtml(color, kind, title, meta){
-  return `<div class="p-head" style="background:${color};color:${onColor(color)}"><div class="p-kind">${kind}</div><h1>${esc(title)}</h1><div class="p-meta">${meta}</div></div>`;
+// رأس أنيق: لون التصنيف يظهر كلمسة فقط (شارة صغيرة وخط قصير)
+function headHtml(color, kind, title, meta, tag){
+  return `<div class="p-head"><div class="p-top"><img src="logo.svg" alt=""><b>تقاريري</b>${tag?`<span class="p-tag"><i></i>${esc(tag)}</span>`:''}<span class="p-kind">${kind}</span></div>
+    <h1>${esc(title)}</h1><i class="p-accent"></i><div class="p-meta">${meta}</div></div>`;
 }
 function decRowsTable(list, opts={}){
   return `<table class="p-table"><thead><tr><th>#</th><th>القرار</th><th>المسؤول</th><th>الأجل</th>${opts.status?'<th>الحالة</th>':''}${opts.src?'<th>المصدر</th>':''}</tr></thead><tbody>
@@ -1751,8 +1791,8 @@ function paperReport(r){
     else if(String(v||'').trim()) body+=sec(f.l, `<p class="p-text">${nl2br(esc(v))}</p>`);
   });
   if((r.notes||'').trim()) body+=sec('ملاحظات', `<p class="p-text">${nl2br(esc(r.notes))}</p>`);
-  const meta=[`📅 ${fmtLong(r.date)} · ${r.date.slice(11,16)}`, r.entity && `👥 ${r.type==='meeting'?'مع ':''}${esc(r.entity)}`, r.place && `📍 ${esc(r.place)}`].filter(Boolean).join('&nbsp;&nbsp;&nbsp;');
-  return paperWrap(c, headHtml(c, `${T.icon} ${T.name}${L?' · '+esc(L.name):''}`, titleOf(r), meta),
+  const meta=[`📅 ${fmtLong(r.date)} · ${r.date.slice(11,16)}`, r.entity && `👥 ${r.type==='meeting'?'مع ':''}${esc(r.entity)}`, r.place && `📍 ${esc(r.place)}`].filter(Boolean).map(x=>`<span>${x}</span>`).join('');
+  return paperWrap(c, headHtml(c, `${T.icon} ${T.name}`, titleOf(r), meta, L?L.name:''),
     body || '<p class="p-empty">لا يوجد محتوى بعد</p>', `<span>تقرير ${T.name}</span><span>${fmtLong(todayStr())}</span>`);
 }
 function paperDecisions(r){
@@ -1770,7 +1810,7 @@ function paperDecisions(r){
     body+=sec('قرارات هذه الجلسة', decRowsTable(own,{status:true}));
   }
   if(prev.length) body+=sec(`قرارات سابقة مفتوحة مع «${esc(r.entity)}»`, decRowsTable(prev,{status:true,src:true}));
-  return paperWrap(c, headHtml(c, '🎯 متابعة القرارات', titleOf(r), `الوضع بتاريخ ${fmtLong(todayStr())}`),
+  return paperWrap(c, headHtml(c, '🎯 متابعة القرارات', titleOf(r), `<span>الوضع بتاريخ ${fmtLong(todayStr())}</span>`, (label(r.label)||{}).name||''),
     body, `<span>متابعة قرارات: ${esc(titleOf(r))}</span><span>صفحة 2</span>`);
 }
 const reportPages = r => [paperReport(r), paperDecisions(r)].filter(Boolean);
@@ -1786,7 +1826,7 @@ function paperFollow(){
   let body=`<div class="p-stats">${groups.map(([n,a],i)=>`<div class="p-stat"><b style="color:${['#D93025','#1A56C4','#1F2328','#1E9E5A'][i]}">${a.length}</b>${n.replace('⏰ ','')}</div>`).join('')}</div>`;
   groups.forEach(([n,a])=>{ if(a.length) body+=sec(`${n} (${a.length})`, decRowsTable(sortItems(a).map(x=>x.d),{status:true,src:true})); });
   if(!items.length) body+='<p class="p-empty">لا توجد قرارات</p>';
-  return paperWrap(c, headHtml(c, '🎯 كشف متابعة القرارات', scope, `الوضع بتاريخ ${fmtLong(todayStr())}`), body, `<span>تقاريري</span><span>${fmtLong(todayStr())}</span>`);
+  return paperWrap(c, headHtml(c, '🎯 كشف متابعة القرارات', scope, `<span>الوضع بتاريخ ${fmtLong(todayStr())}</span>`, ''), body, `<span>تقاريري</span><span>${fmtLong(todayStr())}</span>`);
 }
 
 /* =========================================================
@@ -1820,19 +1860,21 @@ function openShare(pages, base, title){
 let libsP=null, fontCSS=null;
 function loadScript(src){ return new Promise((ok,no)=>{ const s=document.createElement('script'); s.src=src; s.onload=ok; s.onerror=()=>no(new Error('تعذّر تحميل المكتبة')); document.head.appendChild(s); }); }
 function ensureLibs(){ return libsP || (libsP = Promise.all([loadScript('lib/html-to-image.js'), loadScript('lib/jspdf.umd.min.js')]).catch(e=>{ libsP=null; throw e; })); }
-async function renderCanvases(pages){
+async function renderCanvases(pages, mobile){
   await ensureLibs();
-  const host=$('#paperHost'); host.innerHTML=pages.join('');
+  const host=$('#paperHost'); host.innerHTML=(mobile ? pages.map(p=>p.replace('<div class="paper"','<div class="paper m"')) : pages).join('');
+  await Promise.all($$('img',host).map(i=>i.complete?0:new Promise(ok=>{ i.onload=i.onerror=ok; })));
+  try{ await Promise.all(['700 20px "Reem Kufi"','400 16px "IBM Plex Sans Arabic"','500 16px "IBM Plex Sans Arabic"','700 16px "IBM Plex Sans Arabic"'].map(f=>document.fonts.load(f,'تقرير'))); }catch(e){}
   await document.fonts.ready;
   const els=$$('.paper',host);
   if(fontCSS===null){ try{ fontCSS=await htmlToImage.getFontEmbedCSS(els[0]); }catch(e){ fontCSS=''; } }
   const out=[];
-  try{ for(const el of els) out.push(await htmlToImage.toCanvas(el,{pixelRatio:2, backgroundColor:'#ffffff', fontEmbedCSS:fontCSS, width:794, height:el.scrollHeight})); }
+  try{ for(const el of els) out.push(await htmlToImage.toCanvas(el,{pixelRatio: mobile?3:2.6, backgroundColor:'#ffffff', fontEmbedCSS:fontCSS, width:el.offsetWidth, height:el.scrollHeight})); }
   finally{ host.innerHTML=''; }
   return out;
 }
 async function exportPages(pages, kind, base){
-  const canvases=await renderCanvases(pages);
+  const canvases=await renderCanvases(pages, kind==='png');
   let files=[];
   if(kind==='png'){
     for(let i=0;i<canvases.length;i++){
@@ -1851,7 +1893,7 @@ async function exportPages(pages, kind, base){
         const part=document.createElement('canvas'); part.width=c.width; part.height=h;
         const ctx=part.getContext('2d'); ctx.fillStyle='#fff'; ctx.fillRect(0,0,c.width,h); ctx.drawImage(c,0,y,c.width,h,0,0,c.width,h);
         if(!first) pdf.addPage(); first=false;
-        pdf.addImage(part.toDataURL('image/jpeg',0.92),'JPEG',0,0,210,h*210/c.width);
+        pdf.addImage(part.toDataURL('image/jpeg',0.96),'JPEG',0,0,210,h*210/c.width,undefined,'FAST');
       }
     }
     files=[new File([pdf.output('blob')], base+'.pdf', {type:'application/pdf'})];

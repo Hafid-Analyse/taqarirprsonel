@@ -1,12 +1,15 @@
 // تقاريري — Service Worker: يجعل التطبيق يفتح ويعمل دون إنترنت
-const V = 'taqarir-v8';
+const V = 'taqarir-v9';
 const SHELL = [
   './', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './logo.svg',
   './lib/html-to-image.js', './lib/jspdf.umd.min.js',
   './fonts/tajawal-arabic-400-normal.woff2', './fonts/tajawal-arabic-500-normal.woff2',
   './fonts/tajawal-arabic-700-normal.woff2', './fonts/tajawal-arabic-800-normal.woff2',
   './fonts/tajawal-latin-400-normal.woff2', './fonts/tajawal-latin-500-normal.woff2',
-  './fonts/tajawal-latin-700-normal.woff2', './fonts/tajawal-latin-800-normal.woff2'
+  './fonts/tajawal-latin-700-normal.woff2', './fonts/tajawal-latin-800-normal.woff2',
+  './fonts/ibm-plex-sans-arabic-arabic-400-normal.woff2', './fonts/ibm-plex-sans-arabic-arabic-500-normal.woff2', './fonts/ibm-plex-sans-arabic-arabic-700-normal.woff2',
+  './fonts/ibm-plex-sans-arabic-latin-400-normal.woff2', './fonts/ibm-plex-sans-arabic-latin-500-normal.woff2', './fonts/ibm-plex-sans-arabic-latin-700-normal.woff2',
+  './fonts/reem-kufi-arabic-500-normal.woff2', './fonts/reem-kufi-arabic-700-normal.woff2', './fonts/reem-kufi-latin-500-normal.woff2', './fonts/reem-kufi-latin-700-normal.woff2'
 ];
 
 self.addEventListener('install', e => {
